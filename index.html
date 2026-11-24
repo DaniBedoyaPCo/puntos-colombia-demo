@@ -440,8 +440,7 @@
       .utility-navigation{background:#fff}
       .audience-navigation{transition:height .24s ease,margin-bottom .24s ease}
       .primary-navigation{transition:height .24s ease}
-      .site-header.is-scrolled .audience-navigation{height:4px;margin-bottom:0}
-      .site-header.is-scrolled .audience-content{visibility:hidden}
+      .site-header.is-scrolled .audience-navigation{height:32px;margin-bottom:0}
       .site-header.is-scrolled .primary-navigation{height:64px}
     }
     @media(min-width:761px) and (max-width:1100px){.shop-copy{width:46%}.shop-copy h2{font-size:26px;line-height:34px;gap:8px}.shop-copy>p{font-size:14px;line-height:22px}.shop-results{top:105px}.shop-feature{width:72%}.shop-product-details{bottom:16px;font-size:12px;line-height:18px}.shop-product-details h3,.shop-product-details strong{font-size:12px;line-height:18px}}
@@ -472,6 +471,17 @@
       .ad-badge{top:24px;right:24px;left:auto;padding:2px 10px;font-size:14px;line-height:20px}
     }
     @media(prefers-reduced-motion:reduce){.shop-ring,#shop-points{transition:none}}
+    /* Capas del header: una experiencia activa y el resto desenfocado. */
+    .site-header .utility-navigation{transition:filter .2s ease,opacity .2s ease,height .24s ease,visibility .24s ease}
+    .site-header :is(.logo,.login,.nav-trigger,.nav-link,.mobile-account,.mobile-menu-button){transition:filter .2s ease,opacity .2s ease,background .2s ease}
+    .site-header:has(.nav-trigger[aria-expanded="true"]) .utility-navigation{filter:blur(8px);opacity:.55}
+    .site-header.search-open :is(.primary-navigation>.logo,.primary-navigation>.login,.nav-trigger,.nav-link,.mobile-account,.mobile-menu-button){filter:blur(8px);opacity:.55}
+    .site-header.search-open .nav-dropdown,.site-header:has(.nav-trigger[aria-expanded="true"]) .header-search :is(.suggestions,.conversation,.search-status){display:none!important;transition:none!important}
+    .site-header :is(button,a,input):focus-visible{outline:none}
+    .site-header .search-row:focus-within{border-color:var(--border);box-shadow:none}
+    @media(min-width:1001px){
+      .nav-dropdown{overflow-y:auto;overscroll-behavior:contain}
+    }
   </style>
 </head>
 <body id="inicio">
@@ -627,6 +637,7 @@
       if(!mobileLayout.matches)closeMenus();
       trigger.setAttribute('aria-expanded',String(!open));
       document.getElementById(trigger.getAttribute('aria-controls')).hidden=open;
+      updateHeaderPanels();
     }));
     mobileButton.addEventListener('click',()=>{
       closeSearch();
@@ -642,7 +653,7 @@
     });
     document.addEventListener('click',event=>{
       if(!siteHeader.contains(event.target)){closeMenus();closeMobile();}
-      if(event.target.closest('.nav-dropdown a,.nav-link,.mobile-navigation-footer a')){closeMobile();closeMenus();}
+      if(event.target.closest('.nav-dropdown a,.nav-link,.mobile-navigation-footer a,.audience-content a,.logo')){closeMobile();closeMenus();}
     });
     mobileLayout.addEventListener('change',()=>{closeMobile();closeMenus();closeSearch();requestHeaderUpdate();});
     // Search · Figma 1395:31583. El proveedor local usa contenido ya presente en la página.
@@ -762,12 +773,27 @@
       setAvailable(available){searchAvailable=!!available;cancelSearch();closeSearch();},
       get state(){return shell.dataset.state;}
     };
+    function updateHeaderPanels(){
+      triggers.forEach(trigger=>{
+        const panel=document.getElementById(trigger.getAttribute('aria-controls'));
+        if(mobileLayout.matches){['top','left','max-height'].forEach(name=>panel.style.removeProperty(name));return;}
+        if(trigger.getAttribute('aria-expanded')!=='true')return;
+        const contentRect=headerContent.getBoundingClientRect(),headerRect=siteHeader.getBoundingClientRect(),triggerRect=trigger.getBoundingClientRect();
+        const viewport=window.visualViewport,viewportLeft=viewport?.offsetLeft||0,viewportWidth=viewport?.width||innerWidth,viewportBottom=(viewport?.offsetTop||0)+(viewport?.height||innerHeight);
+        const top=headerRect.bottom+8;
+        panel.style.top=(top-contentRect.top)+'px';
+        panel.style.maxHeight=Math.max(0,viewportBottom-top-16)+'px';
+        const left=Math.max(viewportLeft+16,Math.min(triggerRect.left,viewportLeft+viewportWidth-panel.offsetWidth-16));
+        panel.style.left=(left-contentRect.left)+'px';
+      });
+    }
     function updateSearchGeometry(){
       const headerRect=$('.utility-search').getBoundingClientRect(),searchRect=$('.header-search').getBoundingClientRect();
       shell.style.setProperty('--search-available-width',Math.max(0,headerRect.right-searchRect.left)+'px');
       const viewport=window.visualViewport,viewportBottom=viewport?viewport.offsetTop+viewport.height:window.innerHeight;
       const fieldHeight=$('.search-row').getBoundingClientRect().height;
       shell.style.setProperty('--search-panel-height',Math.max(0,viewportBottom-searchRect.top-fieldHeight-8-16)+'px');
+      updateHeaderPanels();
     }
     search.addEventListener('focus',openSearch);
     search.addEventListener('click',()=>{if(['placeholder','filled'].includes(shell.dataset.state))openSearch();});
@@ -822,14 +848,11 @@
     window.visualViewport?.addEventListener('scroll',updateSearchGeometry);
 
     // La reserva de altura evita saltos de contenido al contraer la cabecera sticky.
-    const utilityNavigation=$('.utility-navigation'),audienceNavigation=$('.audience-navigation'),headerRoot=document.documentElement;
+    const utilityNavigation=$('.utility-navigation'),headerRoot=document.documentElement;
     let headerCompact=false,headerScrolled=false,headerHovered=false,headerScrollFrame=0;
     function updateHeaderForScroll(){
       headerScrollFrame=0;
       headerScrolled=window.scrollY>64?true:window.scrollY<=4?false:headerScrolled;
-      if(headerScrolled&&audienceNavigation.contains(document.activeElement))$('.logo').focus({preventScroll:true});
-      audienceNavigation.inert=headerScrolled;
-      audienceNavigation.setAttribute('aria-hidden',String(headerScrolled));
       siteHeader.classList.toggle('is-scrolled',headerScrolled);
       const nextCompact=headerScrolled&&!headerHovered&&!siteHeader.contains(document.activeElement)&&!siteHeader.classList.contains('mobile-open');
       if(nextCompact===headerCompact)return;
