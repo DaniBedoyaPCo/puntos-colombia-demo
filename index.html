@@ -172,7 +172,7 @@
     .education-cards{max-width:1151px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:58px;padding:10px 0}
     .education-card{display:flex;flex-direction:column;align-items:flex-start;gap:24px;min-height:356px;padding:24px;border:1px solid #d0d5dd;border-radius:16px;background:#fff;transform:translateY(0);transition:background .3s,color .3s,transform .3s}
     .education-card-icon{width:40px;height:40px}.education-card h3{font-size:36px;line-height:44px;letter-spacing:-.72px;font-weight:700;color:#344054}.education-card p{font-size:20px;line-height:30px;font-weight:500;color:#475467}.education-card .pill,.education-card .yellow-button{gap:12px;padding:16px 28px;font-size:18px;line-height:28px;white-space:nowrap;margin-top:auto}.education-card a img,.education-card button img{width:24px;height:24px}
-    .education-card.is-current{background:#7d45f4;transform:translateY(-10px)}.education-card.is-current h3,.education-card.is-current p{color:#fff}.education-card.is-current .education-card-icon{filter:brightness(0) invert(1)}.education-card:first-child:not(.is-current) .education-card-icon{filter:brightness(0) saturate(100%) invert(29%) sepia(12%) saturate(1032%) hue-rotate(179deg)}
+    .education-card.is-current{background:#7d45f4;transform:translateY(-10px)}.education-card.is-current h3,.education-card.is-current p{color:#fff}
     .education-progress{display:flex;align-items:center;justify-content:center;height:40px}.education-step{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:20px;flex:none;background:#fff}.step-dot{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:20px;border:2px solid #eaecf0}.step-dot img{width:12px;height:12px}.education-step.is-current{box-shadow:0 0 0 4px #f4ebff}.education-step.is-current .step-dot{background:#ded6ff;border-color:#6821d9}.education-line{width:80px;height:2px;background:#eaecf0}
     .rewards{gap:54px}.reward-carousel{height:444px;display:flex;flex-direction:column;gap:40px;overflow:visible}.reward-carousel h2{text-align:center}.reward-window{width:calc(100% - 2*var(--gutter));max-width:1216.656px;margin:auto;height:360px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain;touch-action:pan-x pan-y pinch-zoom}.reward-window::-webkit-scrollbar{display:none}.reward-track{height:360px;display:flex;justify-content:space-between;gap:32px}
     .reward-card{position:relative;flex:none;width:231.414px;height:360px;border:0;border-radius:24.615px;perspective:1200px;cursor:pointer}.reward-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s ease}.reward-front,.reward-back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:24.615px;overflow:hidden}.reward-front>img{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}.reward-back{transform:rotateY(180deg);background:#fff;border:1px solid #d0d5dd;padding:18.414px;display:flex;flex-direction:column;justify-content:space-between}.reward-back h3{font-size:18.414px;line-height:24.552px;font-weight:600;color:#1d2939}.reward-back p{font-size:12.276px;line-height:18.414px;color:#475467;margin-top:6.138px}.reward-back .pill{font-size:13.811px;line-height:21.483px;gap:9.207px;padding:12.276px 21.483px;align-self:flex-start}.reward-back .pill img{width:18.414px;height:18.414px}
@@ -188,9 +188,14 @@
     .pill,.yellow-button,.login{transition:transform 180ms var(--motion-response),background 180ms ease,border-color 180ms ease}
     .pill:active,.yellow-button:active,.login:active{transform:scale(.97)}
     .brand-card{transition:transform 280ms var(--motion-enter),background 200ms ease,border-color 200ms ease}
-    .education-card{transition:background 320ms ease,color 240ms ease,transform 480ms var(--motion-enter)}
-    .education-card h3,.education-card p{transition:color 240ms ease}
-    .education-step,.step-dot{transition:background 240ms ease,border-color 240ms ease,box-shadow 240ms ease}
+    .education-card{transition:background 300ms linear,color 300ms linear,transform 300ms linear}
+    .education-card h3,.education-card p{transition:color 300ms linear}
+    .education-step,.step-dot,.education-line{transition:background 300ms linear,border-color 300ms linear,box-shadow 300ms linear}
+    .education-card .pill,.education-card .yellow-button{transition:background 300ms linear,color 300ms linear,border-color 300ms linear}
+    .education-step.is-complete .step-dot{border:0;background:#ded6ff}
+    .education-step.is-complete .step-dot img{width:40px;height:40px}
+    .education-line.is-complete{background:#7d45f4}
+    @media(min-width:1251px){.education-card .pill{padding:15px 27px}}
     .reward-inner{transition-timing-function:var(--motion-response)}
     .promotion-track{transition-timing-function:var(--motion-enter);transition-duration:650ms}
     .carousel-dots button{transition:background 180ms ease,scale 240ms var(--motion-enter)}
@@ -270,6 +275,7 @@
       .education-card .pill,.education-card .yellow-button{align-self:flex-start;padding:10px 18px;font-size:16px;line-height:24px;gap:12px;min-height:44px}.education-card a img,.education-card button img{width:20px;height:20px}
       .education-progress{height:40px;margin:0;gap:0}.education-step{width:40px;height:40px;border-radius:50%}.step-dot{width:24px;height:24px;border-radius:50%;border-width:1px}.step-dot img{width:8px;height:8px}.education-line{width:48px}
       .education-step.is-current{box-shadow:none}.education-step.is-current .step-dot{box-shadow:0 0 0 4px #f4ebff}
+      .education-step.is-complete .step-dot img{width:24px;height:24px}
       .education{overflow-anchor:none}
       .education.is-scroll-stack{height:calc(var(--education-stage-height) + var(--education-travel))}
       .education.is-scroll-stack .education-cards{overflow:clip;overflow-clip-margin:2px;isolation:isolate}
@@ -858,7 +864,13 @@
     const educationStage=document.createElement('div');educationStage.className='education-stage';
     educationStage.append(...educationSection.children);educationSection.append(educationStage);
     educationSection.dataset.mobileFigmaNode='1289:34957';
-    const education=$('.education'),educationTabs=$$('.education-step'),educationCards=$$('.education-card');
+    const education=$('.education'),educationTabs=$$('.education-step'),educationCards=$$('.education-card'),educationLines=$$('.education-line');
+    education.dataset.figmaNode='1219:28696';
+    const educationIcons=[
+      {inactive:'assets/education-user-inactive.7ac27fe8c7c1.svg',active:'assets/proposal-00a60.cef296756e67.svg'},
+      {inactive:'assets/new-78205.e4486774603f.svg',active:'assets/education-target-active.0c27efae73be.svg'},
+      {inactive:'assets/new-274ba.c3f880b967b1.svg',active:'assets/education-smile-active.604c83059169.svg'}
+    ];
     const educationMotion=motionPreference;
     const educationContents=educationCards.map(card=>{
       const content=document.createElement('div');content.className='education-card-content';
@@ -873,15 +885,21 @@
       educationIndex=(index+educationTabs.length)%educationTabs.length;
       education.dataset.step=String(educationIndex);
       educationTabs.forEach((tab,i)=>{
-        const current=i===educationIndex;
-        tab.setAttribute('aria-pressed',String(current));tab.classList.toggle('is-current',current);
-        $('.step-dot img',tab).src=current?'assets/education-dot-current.9ddb226b500a.svg':'assets/education-dot.f9c9915d6fd1.svg';
-        educationCards[i].classList.toggle('is-current',current);
+        const current=i===educationIndex,complete=i<educationIndex,card=educationCards[i];
+        tab.setAttribute('aria-pressed',String(current));tab.classList.toggle('is-current',current);tab.classList.toggle('is-complete',complete);
+        if(current)tab.setAttribute('aria-current','step');else tab.removeAttribute('aria-current');
+        $('.step-dot img',tab).src=complete?'assets/education-step-complete.bebd9a5a4d46.svg':current?'assets/education-dot-current.9ddb226b500a.svg':'assets/education-dot.f9c9915d6fd1.svg';
+        card.classList.toggle('is-current',current);
+        $('.education-card-icon',card).src=educationIcons[i][current&&!compactHome.matches?'active':'inactive'];
+        const button=$('a,button',card),highlight=compactHome.matches?i===0:current;
+        button.classList.toggle('yellow-button',highlight);button.classList.toggle('pill',!highlight);
+        $('img',button).src=highlight?'assets/new-6d8b2.de80ceecda39.svg':'assets/new-926ea.b445ddffa808.svg';
       });
+      educationLines.forEach((line,i)=>line.classList.toggle('is-complete',i<educationIndex));
     }
     function updateEducationPlayback(){
-      clearInterval(educationTimer);
-      if(!compactHome.matches&&educationVisible&&!document.hidden&&!educationMotion.matches&&!education.matches(':hover,:focus-within'))educationTimer=setInterval(()=>setEducationStep(educationIndex+1),5000);
+      clearTimeout(educationTimer);
+      if(!compactHome.matches&&educationVisible&&!document.hidden&&!educationMotion.matches&&!education.matches(':focus-within'))educationTimer=setTimeout(()=>{setEducationStep(educationIndex+1);updateEducationPlayback();},4000);
     }
     educationTabs.forEach((tab,i)=>{
       tab.addEventListener('click',()=>{setEducationStep(i);updateEducationPlayback();});
@@ -890,9 +908,8 @@
         if(next!==undefined){event.preventDefault();setEducationStep(next);educationTabs[next].focus({preventScroll:true});updateEducationPlayback();}
       });
     });
-    educationCards.forEach((card,i)=>card.addEventListener('pointerenter',()=>{if(!compactHome.matches&&matchMedia('(hover:hover)').matches)setEducationStep(i);}));
     new IntersectionObserver(entries=>{educationVisible=entries[0].isIntersecting;updateEducationPlayback();},{threshold:.2}).observe(education);
-    education.addEventListener('mouseenter',updateEducationPlayback);education.addEventListener('mouseleave',updateEducationPlayback);education.addEventListener('focusin',updateEducationPlayback);education.addEventListener('focusout',()=>setTimeout(updateEducationPlayback,0));
+    education.addEventListener('focusin',updateEducationPlayback);education.addEventListener('focusout',()=>setTimeout(updateEducationPlayback,0));
     document.addEventListener('visibilitychange',updateEducationPlayback);educationMotion.addEventListener('change',updateEducationPlayback);
     let educationGeometry=null,educationScrollFrame=0,educationGeometryDirty=true;
     function updateEducationScroll(){
@@ -946,12 +963,13 @@
     window.addEventListener('resize',invalidateEducationGeometry);
     window.visualViewport?.addEventListener('resize',invalidateEducationGeometry);
     window.addEventListener('pageshow',invalidateEducationGeometry);
-    compactHome.addEventListener('change',()=>{invalidateEducationGeometry();updateEducationPlayback();});
+    compactHome.addEventListener('change',()=>{setEducationStep(educationIndex,false);invalidateEducationGeometry();updateEducationPlayback();});
     educationMotion.addEventListener('change',invalidateEducationGeometry);
     // Recalcula el inicio cuando cambian las fuentes o la altura de los aliados.
     new ResizeObserver(invalidateEducationGeometry).observe($('.brands'));
     new ResizeObserver(invalidateEducationGeometry).observe(educationStage);
     document.fonts.ready.then(invalidateEducationGeometry);
+    setEducationStep(0,false);
     requestEducationScroll();
     // Cinta continua a 18 px/s: una etiqueta tarda unos cinco segundos en avanzar.
     const productScroll=$('.product-scroll'),productRibbon=$('.product-shortcuts');
