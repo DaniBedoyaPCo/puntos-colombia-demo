@@ -994,7 +994,7 @@
     document.fonts.ready.then(invalidateEducationGeometry);
     setEducationStep(0,false);
     requestEducationScroll();
-    // Cinta continua a 18 px/s: una etiqueta tarda unos cinco segundos en avanzar.
+    // Cinta continua a 18 px/s, incluso cuando caben todos los accesos.
     const productScroll=$('.product-scroll'),productRibbon=$('.product-shortcuts');
     const productTrack=document.createElement('div'),productGroup=document.createElement('div');
     productTrack.className='product-track';productGroup.className='product-group';
@@ -1022,11 +1022,11 @@
       if(now>=productPauseUntil&&!productRibbon.matches(':hover,:focus-within')&&cycle>0){
         productPosition=(productPosition+18*elapsed)%cycle;productScroll.scrollLeft=productPosition;
       }else productPosition=productScroll.scrollLeft;
-      if(productVisible&&!document.hidden&&!educationMotion.matches&&productGroup.scrollWidth>productScroll.clientWidth+1)productFrame=requestAnimationFrame(animateProducts);
+      if(productVisible&&!document.hidden&&!educationMotion.matches)productFrame=requestAnimationFrame(animateProducts);
     }
     function updateProductPlayback(){
       cancelAnimationFrame(productFrame);clearTimeout(productResumeTimer);productFrame=0;productLastTime=0;productPosition=productScroll.scrollLeft;
-      if(!productVisible||document.hidden||educationMotion.matches||productRibbon.matches(':hover,:focus-within')||productGroup.scrollWidth<=productScroll.clientWidth+1)return;
+      if(!productVisible||document.hidden||educationMotion.matches||productRibbon.matches(':hover,:focus-within'))return;
       const remaining=productPauseUntil-performance.now();
       if(remaining>0){productResumeTimer=setTimeout(updateProductPlayback,remaining+20);return;}
       productFrame=requestAnimationFrame(animateProducts);
