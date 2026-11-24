@@ -590,71 +590,6 @@
       .social-links{gap:12px}
       .social-links>span{width:64px}
     }
-
-    /* Calculadora: estados, tarjetas explorables y detalle persistente. */
-    #shop-help{font-size:14px;line-height:22px;color:#475467}
-    #shop-points{max-width:12ch}
-    #shop-points[aria-invalid=true]{border-color:#b42318;outline-color:#b42318;background:#fffafa}
-    .shop-board[data-state=invalid] #shop-status{align-self:center;padding:8px 12px;border:1px solid #fecdca;border-radius:8px;background:#fef3f2;color:#b42318}
-    .shop-board[data-active=true]{min-height:669px;aspect-ratio:auto}
-    .shop-board[data-active=true] .shop-copy{top:24px;width:90%;gap:4px}
-    .shop-board[data-active=true] .shop-ring{visibility:hidden;opacity:0}
-    .shop-board[data-active=true] #shop-help{display:none}
-    .shop-results{inset:130px 0 24px;gap:12px;justify-content:center;pointer-events:none}
-    .shop-feature,.shop-guide,.shop-demo-note{pointer-events:auto}
-    .shop-guide{width:48%;max-width:580px;min-height:260px;padding:32px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;border:1px dashed #d6bbfb;border-radius:16px;background:#fcfaff}
-    .shop-guide-title{font-size:24px;line-height:32px;font-weight:600;color:#344054}
-    .shop-guide-message{font-size:16px;line-height:24px;color:#475467}
-    .shop-offers{position:absolute;inset:150px 24px 60px;z-index:2;pointer-events:none}
-    .shop-offer{position:absolute;width:17%;max-width:180px;padding:10px;display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:16px;background:#fff;box-shadow:0 4px 8px -2px #1018281a;pointer-events:auto;transition:border-color .15s,box-shadow .15s}
-    .shop-offer:nth-child(odd){left:0}.shop-offer:nth-child(even){right:0}
-    .shop-offer:nth-child(1){top:0}.shop-offer:nth-child(2){top:24%}.shop-offer:nth-child(3){bottom:0}
-    .shop-offer img{width:100%;height:108px;object-fit:contain}
-    .shop-offer span{font-size:14px;line-height:20px;text-align:center;color:#344054}
-    .shop-offer:hover,.shop-offer[aria-current=true]{border-color:#7f56d9;box-shadow:0 0 0 2px #e9d7fe}
-    .shop-feature{width:54%;max-width:620px;height:auto;max-height:none;flex:none;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 10px #1018280a}
-    .shop-feature:after{display:none}
-    .shop-gallery{position:relative;height:214px;overflow:hidden;background:#f9fafb}
-    .shop-feature .shop-feature-image{position:static;width:100%;height:100%;padding:12px 52px 44px;object-fit:contain}
-    .shop-feature .shop-feature-image.is-detail{transform:scale(1.45);transform-origin:center 38%}
-    .shop-pagination{position:absolute;bottom:8px;left:12px;right:12px;justify-content:center;gap:12px}
-    .shop-pagination>button{width:36px;height:36px;background:#fff}
-    .shop-photo-status{min-width:62px;border-radius:12px;padding:2px 8px;background:#fff;font-size:14px;line-height:22px;text-align:center;color:#475467}
-    .shop-product-details{position:static;padding:16px;display:flex;flex-direction:column;align-items:stretch;gap:12px;color:#344054;font-size:14px;line-height:22px}
-    .shop-product-details>div{padding:0;border:0}
-    .shop-product-heading{display:flex;align-items:center;gap:12px}
-    .shop-product-details h3{font-size:16px;line-height:24px;font-weight:600}
-    .shop-product-details p{color:#475467;font-size:14px;line-height:22px}
-    .shop-product-amounts{display:flex;justify-content:space-between;gap:12px;padding-top:12px!important;border-top:1px solid #eaecf0!important}
-    .shop-product-details strong{display:block;font-size:14px;line-height:22px;font-weight:600}
-    .shop-product-link{align-self:flex-start;padding:8px 16px;min-height:44px;color:#5e00cc;border-color:#d6bbfb}
-    .shop-demo-note{max-width:54%;font-size:12px;line-height:18px;padding:0 8px}
-    @media(min-width:761px) and (max-width:1100px){
-      .shop-board[data-active=true]{min-height:690px}
-      .shop-feature{width:56%}.shop-guide{width:54%;padding:24px}
-      .shop-offers{inset-inline:16px}.shop-offer{width:19%;padding:8px}.shop-offer img{height:86px}
-      .shop-product-amounts{flex-direction:column;gap:8px}
-      .shop-gallery{height:190px}
-    }
-    @media(max-width:760px){
-      .shop-board[data-active=true]{display:flex;flex-direction:column;min-height:0;padding:20px 16px 24px;gap:20px;overflow:visible}
-      .shop-board[data-active=true] .shop-copy{position:static;transform:none;width:100%;gap:8px;max-width:none;order:0}
-      .shop-board[data-active=true] .shop-copy h2{font-size:24px;line-height:32px}
-      .shop-offers{position:static;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;order:1}
-      .shop-offer{position:static!important;width:100%;max-width:none;min-width:0;padding:8px 4px;border-radius:12px}
-      .shop-offer img{height:74px}.shop-offer span{font-size:14px;line-height:20px;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-      .shop-results{position:static;order:2;display:flex;gap:12px}
-      .shop-guide{width:100%;padding:24px 16px;min-height:190px}
-      .shop-guide-title{font-size:20px;line-height:28px}
-      .shop-feature{width:100%;flex:none;height:auto;max-height:none}
-      .shop-gallery{height:220px}
-      .shop-product-details{display:flex;gap:12px;padding:16px 12px}
-      .shop-product-amounts{flex-direction:column;gap:8px}
-      .shop-product-details>div:nth-last-child(-n+2){grid-column:auto}
-      .shop-demo-note{max-width:100%;font-size:12px;line-height:18px}
-      .shop-pagination>button{width:44px;height:44px}
-    }
-    @media(prefers-reduced-motion:reduce){.shop-offer{transition:none}}
   </style>
 </head>
 <body id="inicio">
@@ -761,27 +696,18 @@
       <div class="shop-board" data-active="false">
         <div class="shop-ring" aria-hidden="true"><span class="shop-tile" style="--x:4.51%;--y:45.101644%;--w:10.8800%" data-figma-node="1429:14523"><img src="assets/update-47559.6748f232f85f.webp" alt="" style="object-fit:cover"></span><span class="shop-tile" style="--x:16.27%;--y:32.005979%;--w:10.8800%" data-figma-node="1429:14524"><img src="assets/update-6300d.c843d341f973.webp" alt="" style="object-fit:cover"></span><span class="shop-tile" style="--x:32.72%;--y:10.582960%;--w:10.8800%" data-figma-node="1429:14525"><img src="assets/update-cd52b.3641d1f11ac8.webp" alt="" style="left:1.92%;top:1.72%;width:96.43%;height:96.43%"></span><span class="shop-tile" style="--x:20.88%;--y:71.083707%;--w:10.8700%" data-figma-node="1429:14526"><img src="assets/update-7a465.f279a80d687b.webp" alt="" style="object-fit:cover"></span><span class="shop-tile" style="--x:80.09%;--y:10.582960%;--w:10.8700%" data-figma-node="1429:14527"><img src="assets/update-1b083.bcc572a0aca2.webp" alt="" style="left:6.55%;top:-8.23%;width:87.97%;height:116.2%"></span><span class="shop-tile" style="--x:44.56%;--y:71.083707%;--w:10.8800%" data-figma-node="1429:14528"><img src="assets/update-3b38a.b16bd9e2977e.png" alt="" style="left:9.17%;top:8.18%;width:82.38%;height:82.38%"></span><span class="shop-tile" style="--x:56.4%;--y:66.541106%;--w:10.8800%" data-figma-node="1429:14529"><img src="assets/update-0e2c7.d047a618fd3c.webp" alt="" style="left:7.82%;top:7.13%;width:85.7%;height:85.7%"></span><span class="shop-tile" style="--x:20.88%;--y:6.040359%;--w:10.8700%" data-figma-node="1429:14530"><img src="assets/update-b0519.264346dfcc55.webp" alt="" style="left:5.58%;top:20.38%;width:90.04%;height:59.01%"></span><span class="shop-tile" style="--x:56.4%;--y:10.582960%;--w:10.8800%" data-figma-node="1429:14531"><img src="assets/update-afac3.96c4ccf89ab2.webp" alt="" style="left:0.67%;top:6.1%;width:99.86%;height:87.38%"></span><span class="shop-tile" style="--x:9.04%;--y:10.582960%;--w:10.8700%" data-figma-node="1429:14532"><img src="assets/update-e14e1.a71cdf4843c2.webp" alt="" style="left:8.73%;top:8.06%;width:83.72%;height:83.72%"></span><span class="shop-tile" style="--x:32.72%;--y:66.541106%;--w:10.8800%" data-figma-node="1429:14533"><img src="assets/update-8410a.5fb395a50865.webp" alt="" style="left:5.44%;top:-10.35%;width:90.48%;height:120.63%"></span><span class="shop-tile" style="--x:44.56%;--y:6.040359%;--w:10.8800%" data-figma-node="1429:14534"><img src="assets/update-35813.cc8a02f6a726.webp" alt="" style="left:2.16%;top:-0.64%"></span><span class="shop-tile" style="--x:9.04%;--y:66.541106%;--w:10.8700%" data-figma-node="1429:14535"><img src="assets/update-35813.cc8a02f6a726.webp" alt="" style="left:2.16%;top:-0.64%"></span><span class="shop-tile" style="--x:72.85%;--y:32.005979%;--w:10.8800%" data-figma-node="1429:14536"><img src="assets/update-94f68.aeb523cef2fa.webp" alt="" style="left:18.35%;top:4.54%;width:64.01%;height:89.59%"></span><span class="shop-tile" style="--x:80.09%;--y:66.541106%;--w:10.8700%" data-figma-node="1429:14537"><img src="assets/update-ad312.7eab5bbe0b9f.webp" alt="" style="object-fit:cover"></span><span class="shop-tile" style="--x:68.25%;--y:71.083707%;--w:10.8700%" data-figma-node="1429:14538"><img src="assets/update-2d45d.04f490de8f2d.png" alt="" style="left:3.97%;top:3.39%;width:92.45%;height:92.45%"></span><span class="shop-tile" style="--x:84.61%;--y:44.985052%;--w:10.8800%" data-figma-node="1429:14539"><img src="assets/update-513a4.dc69ce2b1cf3.webp" alt="" style="left:-2.85%;top:13.7%;width:106.67%;height:72.05%"></span><span class="shop-tile" style="--x:68.25%;--y:6.040359%;--w:10.8700%" data-figma-node="1429:14540"><img src="assets/update-6502d.c817c3b527a7.webp" alt="" style="object-fit:cover"></span></div>
         <form class="shop-copy" novalidate>
-          <h2 id="shop-title"><label for="shop-points">Si tienes</label><input id="shop-points" name="points" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="0000" aria-label="Cantidad de Puntos" aria-describedby="shop-help shop-status" aria-invalid="false"><span>Puntos...</span></h2>
-          <p id="shop-description">Ingresa tus Puntos y descubre qué puedes conseguir con Puntos más Dinero o Solo con Puntos.</p>
-          <p id="shop-help">Escribe la cantidad sin puntos ni comas.</p>
+          <h2 id="shop-title"><label for="shop-points">Si tienes</label><input id="shop-points" name="points" type="text" inputmode="numeric" autocomplete="off" maxlength="11" placeholder="0000" aria-label="Cantidad de Puntos" aria-describedby="shop-description shop-status"><span>Puntos...</span></h2>
+          <p id="shop-description">¡Ingresa los puntos que tienes y accede a una selección de productos que tenemos para ti!</p>
           <button hidden type="submit">Explorar productos con mis Puntos</button>
-          <p id="shop-status" role="status" aria-live="polite" aria-atomic="true" hidden></p>
+          <p id="shop-status" role="status" aria-live="polite" hidden></p>
         </form>
-        <div class="shop-offers" role="group" aria-label="Explorar productos disponibles" hidden></div>
-        <div class="shop-results" hidden role="region" aria-label="Productos de demostración" aria-busy="false">
-          <div class="shop-guide"><p class="shop-guide-title">Descubre tus posibilidades</p><p class="shop-guide-message"></p><button class="pill shop-retry" type="button" hidden>Reintentar</button></div>
-          <article class="shop-feature" aria-label="Detalle del producto seleccionado" hidden>
-            <div class="shop-gallery" role="region" aria-roledescription="carrusel" aria-label="Fotos del producto">
-              <img class="shop-feature-image" src="assets/update-68df0.9523a941777d.webp" alt="Control DualSense PS5">
-              <div class="shop-pagination" role="group" aria-label="Seleccionar foto"><button type="button" class="shop-previous" aria-label="Foto anterior"><img src="assets/new-926ea.b445ddffa808.svg" alt=""></button><span class="shop-photo-status" aria-live="polite" aria-atomic="true"></span><button type="button" class="shop-next" aria-label="Siguiente foto"><img src="assets/new-926ea.b445ddffa808.svg" alt=""></button></div>
-            </div>
-            <div class="shop-product-details">
-              <div class="shop-product-heading"><img class="shop-seller" src="assets/update-bdad3.baecdafc54a2.png" alt=""><div><h3 class="shop-product-name"></h3><p class="shop-product-seller"></p></div></div>
-              <div class="shop-product-amounts"><div><p class="shop-payment-mode"></p><strong class="shop-product-price"></strong></div><div class="shop-earned"><p>Podrías acumular</p><strong class="shop-product-earned"></strong></div></div>
-              <a class="pill shop-product-link" target="_blank" rel="noopener noreferrer" hidden></a>
-            </div>
+        <div class="shop-results" hidden role="region" aria-label="Productos de demostración">
+          <article class="shop-feature" aria-live="polite">
+            <img class="shop-feature-image" src="assets/update-68df0.9523a941777d.webp" alt="Control DualSense PS5">
+            <div class="shop-product-details"><img class="shop-seller" src="assets/update-bdad3.baecdafc54a2.png" alt="Sony"><div><h3 class="shop-product-name">Control DualSense PS5</h3><p class="shop-product-seller">Vendido por: Sony</p></div><div><strong>Desde 1000 Puntos</strong><p>+ $200.000</p></div><div><strong>Acumulas hasta</strong><p class="shop-product-earned">560 Puntos</p></div></div>
           </article>
-          <p class="shop-demo-note">Productos y valores de ejemplo. Los enlaces abren la tienda del vendedor.</p>
+          <div class="shop-pagination" role="group" aria-label="Seleccionar producto"><button type="button" class="shop-previous" aria-label="Producto anterior"><img src="assets/new-926ea.b445ddffa808.svg" alt=""></button><div class="shop-pages"><button type="button" aria-label="Ver Control DualSense PS5" aria-current="true"></button><button type="button" aria-label="Ver tenis adidas" aria-current="false"></button><button type="button" aria-label="Ver Cartera Vibra" aria-current="false"></button></div><button type="button" class="shop-next" aria-label="Siguiente producto"><img src="assets/new-926ea.b445ddffa808.svg" alt=""></button></div>
+          <p class="shop-demo-note">Selección de demostración. Los valores son ejemplos del prototipo.</p>
         </div>
       </div>
     </section>
@@ -1270,114 +1196,39 @@
     setInterval(()=>{if(promotionVisible&&!document.hidden&&!promotionMotion.matches&&!$('.promotions').matches(':hover,:focus-within'))setPromotion(promotionIndex+1);},6000);
     setPromotion(0);
 
-    // Catálogo local del prototipo. No consulta saldo, precios ni disponibilidad real.
+    // Selección local de demostración; importes e imágenes de las tarjetas de Figma.
     const shopBoard=$('.shop-board'),shopForm=$('.shop-copy'),shopPoints=$('#shop-points'),shopResults=$('.shop-results'),shopStatus=$('#shop-status');
-    const shopOfferList=$('.shop-offers'),shopFeature=$('.shop-feature'),shopGuide=$('.shop-guide'),shopRetry=$('.shop-retry');
     const shopProducts=[
-      {id:'dualsense',name:'Control DualSense PS5',seller:'Sony',image:'assets/update-68df0.9523a941777d.webp',images:[{src:'assets/update-68df0.9523a941777d.webp',alt:'Control DualSense PS5'},{src:'assets/update-b0519.264346dfcc55.webp',alt:'Control DualSense PS5, vista del producto'}],logo:'assets/update-bdad3.baecdafc54a2.png',points:1000,earned:560,cash:200000,url:'https://store.sony.com.co/'},
-      {id:'grand-court',name:'Tenis adidas Grand Court Alpha',seller:'Adidas',image:'assets/update-efc67.cc87e90a7962.webp',images:[{src:'assets/update-efc67.cc87e90a7962.webp',alt:'Tenis adidas Grand Court Alpha'},{src:'assets/update-efc67.cc87e90a7962.webp',alt:'Detalle de los tenis adidas Grand Court Alpha',detail:true}],logo:'assets/update-d07db.9ae5f5065d03.png',points:1000,earned:560,cash:200000,url:'https://www.adidas.co/'},
-      {id:'vibra',name:'Cartera Vibra',seller:'Parchita',image:'assets/update-02b5f.b274bf8a0c57.png',images:[{src:'assets/update-02b5f.b274bf8a0c57.png',alt:'Cartera Vibra'},{src:'assets/update-6502d.c817c3b527a7.webp',alt:'Cartera Vibra, vista del producto'}],logo:'assets/update-fbaf0.5744ed08ac45.png',points:1000,earned:320,cash:150000,url:'https://parchita.com.co/'}
+      {name:'Control DualSense PS5',seller:'Sony',image:'assets/update-68df0.9523a941777d.webp',logo:'assets/update-bdad3.baecdafc54a2.png',earned:'560 Puntos',cash:'+ $200.000'},
+      {name:'Tenis adidas Grand Court Alpha',seller:'Adidas',image:'assets/update-efc67.cc87e90a7962.webp',logo:'assets/update-d07db.9ae5f5065d03.png',earned:'560 Puntos',cash:'+ $200.000'},
+      {name:'Cartera Vibra',seller:'Parchita',image:'assets/update-02b5f.b274bf8a0c57.png',logo:'assets/update-fbaf0.5744ed08ac45.png',earned:'320 Puntos',cash:'+ $150.000'}
     ];
-    const shopNumber=new Intl.NumberFormat('es-CO');
-    // Conserva el límite técnico previo de nueve dígitos; no representa un límite comercial.
-    let shopMaxPoints=999999999,shopIndex=-1,shopPhoto=0,shopMatches=[],shopTimer,shopRequest,shopVersion=0,shopLastValue='';
-    const shopLocalProvider=async(points,{signal})=>{
-      await new Promise((resolve,reject)=>{const timer=setTimeout(resolve,260);signal.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Consulta cancelada','AbortError'));},{once:true});});
-      return shopProducts.filter(product=>product.points<=points);
-    };
-    let shopProvider=shopLocalProvider;
-    function shopMessage(message){shopStatus.textContent=message;shopStatus.hidden=!message;}
-    function shopResetSelection(){
-      shopIndex=-1;shopPhoto=0;shopFeature.hidden=true;shopGuide.hidden=false;
-      $$('.shop-offer').forEach(link=>link.removeAttribute('aria-current'));
-    }
-    function shopGuideMessage(title,message,retry=false){
-      $('.shop-guide-title').textContent=title;$('.shop-guide-message').textContent=message;shopRetry.hidden=!retry;
-    }
-    function shopInstruction(){return matchMedia('(hover: hover)').matches&&!compactHome.matches?'Pasa el cursor sobre un producto para conocer sus detalles.':'Toca un producto para conocer sus detalles.';}
-    function showShopPhoto(index){
-      if(shopIndex<0)return;
-      const product=shopMatches[shopIndex],photos=product.images?.length?product.images:[{src:product.image,alt:product.name}];
-      shopPhoto=(index+photos.length)%photos.length;
-      const photo=photos[shopPhoto],img=$('.shop-feature-image');img.src=photo.src;img.alt=photo.alt||product.name;img.classList.toggle('is-detail',!!photo.detail);
-      $('.shop-pagination').hidden=photos.length<2;
-      $('.shop-photo-status').textContent=(photo.detail?'Detalle · ':'')+(shopPhoto+1)+' de '+photos.length;
-      $('.shop-gallery').setAttribute('aria-label','Fotos de '+product.name);
-    }
+    let shopIndex=0;
+    const shopPages=$$('.shop-pages button');
     function showShopProduct(index){
-      if(!shopMatches[index]||shopIndex===index)return;
-      shopIndex=index;shopGuide.hidden=true;shopFeature.hidden=false;
-      const product=shopMatches[index];
-      $('.shop-seller').src=product.logo;$('.shop-product-name').textContent=product.name;
-      $('.shop-product-seller').textContent='Vendido por: '+product.seller;
-      $('.shop-payment-mode').textContent=product.cash?'Puntos más Dinero':'Solo con Puntos';
-      $('.shop-product-price').textContent=shopNumber.format(product.points)+' Puntos'+(product.cash?' + $'+shopNumber.format(product.cash):'');
-      $('.shop-earned').hidden=product.earned==null;
-      $('.shop-product-earned').textContent=product.earned==null?'':shopNumber.format(product.earned)+' Puntos';
-      const link=$('.shop-product-link');link.hidden=!product.url;
-      if(product.url){link.href=product.url;link.textContent='Ir a '+product.seller;link.setAttribute('aria-label','Ir a '+product.seller+' (abre en otra pestaña)');}else link.removeAttribute('href');
-      $$('.shop-offer').forEach((item,i)=>{if(i===index)item.setAttribute('aria-current','true');else item.removeAttribute('aria-current');});
-      showShopPhoto(0);
+      shopIndex=(index+shopProducts.length)%shopProducts.length;
+      const product=shopProducts[shopIndex],feature=$('.shop-feature');
+      feature.dataset.product=String(shopIndex);
+      $('.shop-feature-image').src=product.image;$('.shop-feature-image').alt=product.name;
+      $('.shop-seller').src=product.logo;$('.shop-seller').alt=product.seller;
+      $('.shop-product-name').textContent=product.name;$('.shop-product-seller').textContent='Vendido por: '+product.seller;$('.shop-product-earned').textContent=product.earned;$('.shop-product-details>div:nth-of-type(2)>p').textContent=product.cash;
+      shopPages.forEach((button,i)=>button.setAttribute('aria-current',String(i===shopIndex)));
     }
-    function shopRenderOffers(){
-      shopOfferList.replaceChildren();
-      shopMatches.forEach((product,index)=>{
-        const link=document.createElement(product.url?'a':'button');link.className='shop-offer';
-        if(product.url){link.href=product.url;link.target='_blank';link.rel='noopener noreferrer';}else link.type='button';
-        link.setAttribute('aria-label',product.name+', vendido por '+product.seller+(product.url?'. Ir a la tienda (abre en otra pestaña)':''));
-        link.setAttribute('aria-controls','shop-product-detail');
-        const image=document.createElement('img');image.src=product.image;image.alt='';
-        const name=document.createElement('span');name.textContent=product.name;link.append(image,name);
-        link.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch'&&!compactHome.matches&&matchMedia('(hover: hover)').matches)showShopProduct(index);});
-        link.addEventListener('focus',()=>showShopProduct(index));
-        let touch=false;link.addEventListener('pointerdown',event=>{touch=event.pointerType==='touch';});
-        link.addEventListener('click',event=>{if(!product.url||(event.detail!==0&&(touch||compactHome.matches||matchMedia('(hover: none)').matches))){event.preventDefault();showShopProduct(index);}});
-        shopOfferList.append(link);
-      });
+    function updateShop(){
+      const raw=shopPoints.value.replace(/[^0-9]/g,'').slice(0,9);
+      shopPoints.value=raw;shopPoints.style.width=Math.max(4,raw.length)+'ch';
+      const value=Number(raw),active=value>=1000;
+      shopBoard.dataset.active=String(active);shopResults.hidden=!active;
+      shopStatus.hidden=!raw;
+      shopStatus.textContent=!raw?'':active?'Explora estos productos de ejemplo.':'Prueba con 1000 Puntos o más para explorar productos de ejemplo.';
+      if(!active)showShopProduct(0);
     }
-    async function shopQuery(version,points){
-      shopRequest=new AbortController();const request=shopRequest;
-      try{
-        const products=await shopProvider(points,{signal:request.signal});
-        if(version!==shopVersion||request.signal.aborted)return;
-        if(!Array.isArray(products))throw new Error('Catálogo no válido');
-        shopMatches=products.filter(product=>Number.isFinite(product.points)&&product.points>=0&&product.points<=points);
-        shopBoard.dataset.state=shopMatches.length?'ready':'empty';shopResults.setAttribute('aria-busy','false');
-        shopRenderOffers();shopOfferList.hidden=!shopMatches.length;
-        shopGuideMessage(shopMatches.length?'Descubre tus posibilidades':'No encontramos productos para esta cantidad de Puntos',shopMatches.length?shopInstruction():'Prueba con otra cantidad.');
-        shopMessage(shopMatches.length?shopMatches.length+' productos para explorar.':'No encontramos productos para esta cantidad de Puntos. Prueba con otra.');
-      }catch(error){
-        if(version!==shopVersion||request.signal.aborted)return;
-        shopBoard.dataset.state='error';shopResults.setAttribute('aria-busy','false');
-        shopGuideMessage('No pudimos cargar los productos','Intenta de nuevo.',true);shopMessage('No pudimos cargar los productos. Intenta de nuevo.');
-      }
-    }
-    function updateShop(immediate=false){
-      clearTimeout(shopTimer);shopRequest?.abort();const version=++shopVersion,raw=shopPoints.value;
-      shopLastValue=raw;shopPoints.style.width=Math.max(4,Math.min(raw.length,12))+'ch';
-      shopMatches=[];shopOfferList.hidden=true;shopOfferList.replaceChildren();shopResetSelection();
-      const digits=/^[0-9]+$/.test(raw),value=Number(raw),invalid=!!raw&&(!digits||!Number.isSafeInteger(value)||value>shopMaxPoints);
-      shopPoints.setAttribute('aria-invalid',String(invalid));
-      shopBoard.dataset.active=String(!!raw&&!invalid);shopBoard.dataset.state=invalid?'invalid':raw?'loading':'initial';
-      shopResults.hidden=!raw||invalid;shopResults.setAttribute('aria-busy',String(!!raw&&!invalid));
-      if(!raw){shopMessage('');return;}
-      if(invalid){shopMessage(!digits?'Usa solo números, sin puntos ni comas.':'Ingresa hasta '+shopNumber.format(shopMaxPoints)+' Puntos');return;}
-      shopGuideMessage('Estamos buscando productos para ti','');shopMessage('Estamos buscando productos para ti.');
-      if(immediate)shopQuery(version,value);else shopTimer=setTimeout(()=>shopQuery(version,value),350);
-    }
-    function shopRejectFormat(){shopMessage('Usa solo números, sin puntos ni comas.');}
-    shopPoints.addEventListener('beforeinput',event=>{if(event.data&&!/^[0-9]+$/.test(event.data)){event.preventDefault();shopRejectFormat();}});
-    shopPoints.addEventListener('paste',event=>{const text=event.clipboardData?.getData('text');if(text&&!/^[0-9]+$/.test(text)){event.preventDefault();shopRejectFormat();}});
-    shopPoints.addEventListener('input',()=>{if(shopPoints.value&&!/^[0-9]+$/.test(shopPoints.value)){shopPoints.value=shopLastValue;shopRejectFormat();return;}updateShop();});
-    shopForm.addEventListener('submit',event=>{event.preventDefault();updateShop(true);});
-    shopRetry.addEventListener('click',()=>{shopPoints.focus({preventScroll:true});updateShop(true);});
-    $('.shop-previous').addEventListener('click',()=>showShopPhoto(shopPhoto-1));
-    $('.shop-next').addEventListener('click',()=>showShopPhoto(shopPhoto+1));
-    $('.shop-gallery').addEventListener('keydown',event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();showShopPhoto(shopPhoto+(event.key==='ArrowRight'?1:-1));}});
-    shopFeature.id='shop-product-detail';
-    compactHome.addEventListener('change',()=>{if(shopBoard.dataset.state==='ready'&&shopIndex<0)$('.shop-guide-message').textContent=shopInstruction();});
-    // Integración del catálogo: proveedor cancelable, modalidades de pago y máximo configurable.
-    window.puntosShop={setProvider(provider){shopProvider=typeof provider==='function'?provider:shopLocalProvider;updateShop(true);},setMaxPoints(max){if(!Number.isSafeInteger(max)||max<0)throw new RangeError('Máximo no válido');shopMaxPoints=max;updateShop(true);}};
+    shopPoints.addEventListener('input',updateShop);
+    shopForm.addEventListener('submit',event=>{event.preventDefault();updateShop();});
+    shopPages.forEach((button,i)=>button.addEventListener('click',()=>showShopProduct(i)));
+    $('.shop-previous').addEventListener('click',()=>showShopProduct(shopIndex-1));
+    $('.shop-next').addEventListener('click',()=>showShopProduct(shopIndex+1));
+    shopResults.addEventListener('keydown',event=>{if(event.target===shopPoints)return;if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();showShopProduct(shopIndex+(event.key==='ArrowRight'?1:-1));}});
 
     // Entrada y salida reversibles del conversor; no se ocultan controles con foco.
     const shopTiles=$$('.shop-tile',shopBoard),shopMotionElements=[shopBoard,shopForm,...shopTiles];
