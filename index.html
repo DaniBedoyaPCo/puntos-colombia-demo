@@ -278,13 +278,9 @@
       .education-step.is-current{box-shadow:none}.education-step.is-current .step-dot{box-shadow:0 0 0 4px #f4ebff}
       .education-step.is-complete .step-dot img{width:24px;height:24px}
       .education{overflow-anchor:none}
-      .education.is-scroll-stack{height:calc(var(--education-stage-height) + var(--education-travel))}
-      .education.is-scroll-stack .education-cards{overflow:clip;overflow-clip-margin:2px;isolation:isolate}
-      .education.is-scroll-stack .education-stage{position:sticky;top:var(--education-top,80px)}
-      .education.is-scroll-stack .education-card{will-change:transform,opacity}
-      .education.is-static-stack .education-cards{display:flex;flex-direction:column;gap:20px;height:auto}
-      .education.is-static-stack .education-card{position:relative;inset:auto;height:auto;min-height:0;transform:none!important;opacity:1!important;visibility:visible!important}
-      .education.is-static-stack .education-progress{display:none}
+      .education-card,.education-card.is-current{transition:transform 300ms ease-out,opacity 300ms ease-out,visibility 300ms;will-change:auto}
+      .education-card-content{transition:opacity 300ms ease-out}
+      .education-card[aria-hidden=true]{pointer-events:none}
       .reward-carousel{height:auto;gap:24px}.reward-carousel h2{font-size:24px;line-height:32px;font-weight:600;letter-spacing:0;max-width:340px}
       .reward-window{width:100%;max-width:none;height:468px;scroll-snap-type:x mandatory;scroll-padding-left:max(20px,calc((100% - 300px)/2))}
       .reward-track{height:468px;width:max-content;gap:24px;justify-content:flex-start;padding-inline:max(20px,calc((100vw - 300px)/2))}
@@ -1034,12 +1030,12 @@
     document.fonts.ready.then(updateSearchGeometry);
 
 
-    // En móvil las tarjetas se revelan con el scroll nativo dentro de una etapa sticky.
+    // En móvil se selecciona una tarjeta desde los indicadores; escritorio conserva su reproducción.
     const compactHome=matchMedia('(max-width:760px)');
     const educationSection=$('.education');
     const educationStage=document.createElement('div');educationStage.className='education-stage';
     educationStage.append(...educationSection.children);educationSection.append(educationStage);
-    educationSection.dataset.mobileFigmaNode='1289:34957';
+    educationSection.dataset.mobileFigmaNode='1289:34762';
     const education=$('.education'),educationTabs=$$('.education-step'),educationCards=$$('.education-card'),educationLines=$$('.education-line');
     education.dataset.figmaNode='1219:28696';
     const educationIcons=[
@@ -1053,11 +1049,7 @@
       content.append(...card.childNodes);card.append(content);return content;
     });
     let educationIndex=0,educationVisible=false,educationTimer;
-    function setEducationStep(index,scrollToStep=true){
-      if(scrollToStep&&compactHome.matches&&!educationMotion.matches&&educationGeometry){
-        const target=Math.max(0,Math.min(2,index));
-        window.scrollTo({top:educationGeometry.start+target*educationGeometry.travel/2,behavior:'instant'});
-      }
+    function setEducationStep(index){
       educationIndex=(index+educationTabs.length)%educationTabs.length;
       education.dataset.step=String(educationIndex);
       educationTabs.forEach((tab,i)=>{
@@ -1067,11 +1059,12 @@
         $('.step-dot img',tab).src=complete?'assets/education-step-complete.bebd9a5a4d46.svg':current?'assets/education-dot-current.9ddb226b500a.svg':'assets/education-dot.f9c9915d6fd1.svg';
         card.classList.toggle('is-current',current);
         $('.education-card-icon',card).src=educationIcons[i][current&&!compactHome.matches?'active':'inactive'];
-        const button=$('a,button',card),highlight=compactHome.matches?i===0:current;
+        const button=$('a,button',card),highlight=current;
         button.classList.toggle('yellow-button',highlight);button.classList.toggle('pill',!highlight);
         $('img',button).src=highlight?'assets/new-6d8b2.de80ceecda39.svg':'assets/new-926ea.b445ddffa808.svg';
       });
       educationLines.forEach((line,i)=>line.classList.toggle('is-complete',i<educationIndex));
+      renderMobileEducation();
     }
     function updateEducationPlayback(){
       clearTimeout(educationTimer);
@@ -1087,74 +1080,53 @@
     new IntersectionObserver(entries=>{educationVisible=entries[0].isIntersecting;updateEducationPlayback();},{threshold:.2}).observe(education);
     education.addEventListener('focusin',updateEducationPlayback);education.addEventListener('focusout',()=>setTimeout(updateEducationPlayback,0));
     document.addEventListener('visibilitychange',updateEducationPlayback);educationMotion.addEventListener('change',updateEducationPlayback);
-    let educationGeometry=null,educationScrollFrame=0,educationGeometryDirty=true,educationViewportFit=null;
-    function resetEducationStack(){
-      educationContents.forEach(content=>content.style.removeProperty('opacity'));
-      educationCards.forEach(card=>{card.inert=false;card.removeAttribute('aria-hidden');['transform','opacity','visibility'].forEach(name=>card.style.removeProperty(name));});
-      educationGeometry=null;
-    }
-    function updateEducationScroll(){
-      educationScrollFrame=0;
-      const mobile=compactHome.matches,headerHeight=Math.ceil(siteHeader.getBoundingClientRect().height);
-      const viewportKey=innerWidth+':'+innerHeight+':'+headerHeight;
-      const stack=mobile&&!educationMotion.matches&&innerHeight>=560&&(educationViewportFit?.key!==viewportKey||educationViewportFit.fits);
-      education.classList.toggle('is-scroll-stack',stack);education.classList.toggle('is-static-stack',mobile&&!stack);
-      if(!stack){
-        resetEducationStack();return;
-      }
-      if(educationGeometryDirty||!educationGeometry||educationGeometry.viewportHeight!==innerHeight){
-        educationGeometryDirty=false;
-        education.style.removeProperty('--education-card-height');
-        const height=Math.max(320,...educationCards.map((card,i)=>{
-          const content=educationContents[i],children=[...content.children],style=getComputedStyle(card);
-          const spacing=parseFloat(getComputedStyle(content).rowGap)*(children.length-1);
-          const padding=parseFloat(style.paddingTop)+parseFloat(style.paddingBottom);
-          const border=parseFloat(style.borderTopWidth)+parseFloat(style.borderBottomWidth);
-          return Math.ceil(children.reduce((sum,child)=>sum+child.offsetHeight,0)+spacing+padding+border);
-        }));
-        education.style.setProperty('--education-card-height',height+'px');
-        const stageHeight=educationStage.offsetHeight;
-        educationViewportFit={key:viewportKey,fits:stageHeight+headerHeight+16<=innerHeight};
-        if(!educationViewportFit.fits){
-          education.classList.remove('is-scroll-stack');education.classList.add('is-static-stack');resetEducationStack();return;
-        }
-        const top=Math.max(headerHeight+8,Math.round((innerHeight-stageHeight+headerHeight)/2));
-        const travel=Math.max(520,Math.round(innerHeight*.4)*2);
-        education.style.setProperty('--education-stage-height',stageHeight+'px');
-        education.style.setProperty('--education-travel',travel+'px');education.style.setProperty('--education-top',top+'px');
-        educationGeometry={start:education.getBoundingClientRect().top+scrollY-top,travel,height,viewportHeight:innerHeight};
-      }
-      const progress=Math.max(0,Math.min(2,(scrollY-educationGeometry.start)/educationGeometry.travel*2));
-      // Cada paso tiene un tramo de lectura estable antes de revelar el siguiente.
-      const segment=Math.floor(progress),phase=Math.max(0,Math.min(1,(progress-segment-.25)/.5));
-      const visualProgress=Math.min(2,segment+phase);
-      const current=Math.min(2,Math.floor(visualProgress+.5));
-      if(educationIndex!==current)setEducationStep(current,false);
+    // Móvil: los indicadores seleccionan la tarjeta, sin vincularla al scroll de la página.
+    // Figma 1289:34762: Smart Animate, ease-out, 300 ms; retorno al salir con ratón.
+    let educationLayoutFrame=0,educationLeaveTimer=0;
+    function renderMobileEducation(){
+      const mobile=compactHome.matches;
       educationCards.forEach((card,i)=>{
-        const exit=Math.max(0,Math.min(1,visualProgress-i));
-        const depth=Math.max(0,i-visualProgress);
-        const hidden=exit>=.999;
-        card.style.transform=`translate3d(0,${depth*12-exit*48}px,0)`;
-        card.style.opacity=String(hidden?0:1-exit);
-        educationContents[i].style.opacity=String(i===0?1:Math.max(0,Math.min(1,visualProgress-i+1)));
-        card.style.visibility=hidden?'hidden':'visible';
-        card.inert=i!==current;card.setAttribute('aria-hidden',String(i!==current));
+        if(!mobile){
+          card.inert=false;card.removeAttribute('aria-hidden');
+          ['transform','opacity','visibility'].forEach(name=>card.style.removeProperty(name));
+          educationContents[i].style.removeProperty('opacity');return;
+        }
+        const current=i===educationIndex,complete=i<educationIndex;
+        card.style.transform=`translate3d(0,${Math.max(0,i-educationIndex)*12}px,0)`;
+        card.style.opacity=complete?'0':'1';card.style.visibility=complete?'hidden':'visible';
+        educationContents[i].style.opacity=current?'1':'0';
+        card.inert=!current;card.setAttribute('aria-hidden',String(!current));
       });
     }
-    function requestEducationScroll(){if(!educationScrollFrame)educationScrollFrame=requestAnimationFrame(updateEducationScroll);}
-    function invalidateEducationGeometry(){educationGeometryDirty=true;requestEducationScroll();}
-    window.addEventListener('scroll',requestEducationScroll,{passive:true});
-    window.addEventListener('resize',invalidateEducationGeometry);
-    window.visualViewport?.addEventListener('resize',invalidateEducationGeometry);
-    window.addEventListener('pageshow',invalidateEducationGeometry);
-    compactHome.addEventListener('change',()=>{setEducationStep(educationIndex,false);invalidateEducationGeometry();updateEducationPlayback();});
-    educationMotion.addEventListener('change',invalidateEducationGeometry);
-    // Recalcula el inicio cuando cambian las fuentes o la altura de los aliados.
-    new ResizeObserver(invalidateEducationGeometry).observe($('.brands'));
-    new ResizeObserver(invalidateEducationGeometry).observe(educationStage);
-    document.fonts.ready.then(invalidateEducationGeometry);
-    setEducationStep(0,false);
-    requestEducationScroll();
+    function syncEducationLayout(){
+      educationLayoutFrame=0;
+      if(!compactHome.matches){education.style.removeProperty('--education-card-height');renderMobileEducation();return;}
+      education.style.removeProperty('--education-card-height');
+      const height=Math.max(320,...educationCards.map((card,i)=>{
+        const children=[...educationContents[i].children],style=getComputedStyle(card);
+        const spacing=parseFloat(getComputedStyle(educationContents[i]).rowGap)*(children.length-1);
+        const padding=parseFloat(style.paddingTop)+parseFloat(style.paddingBottom);
+        const border=parseFloat(style.borderTopWidth)+parseFloat(style.borderBottomWidth);
+        return Math.ceil(children.reduce((sum,child)=>sum+child.offsetHeight,0)+spacing+padding+border);
+      }));
+      education.style.setProperty('--education-card-height',height+'px');renderMobileEducation();
+    }
+    function requestEducationLayout(){if(!educationLayoutFrame)educationLayoutFrame=requestAnimationFrame(syncEducationLayout);}
+    educationTabs.forEach((tab,i)=>tab.addEventListener('pointerenter',event=>{
+      if(compactHome.matches&&event.pointerType==='mouse'){clearTimeout(educationLeaveTimer);setEducationStep(i);}
+    }));
+    education.addEventListener('pointerenter',()=>clearTimeout(educationLeaveTimer));
+    education.addEventListener('pointerleave',event=>{
+      if(!compactHome.matches||event.pointerType!=='mouse'||education.matches(':focus-within'))return;
+      educationLeaveTimer=setTimeout(()=>{if(compactHome.matches&&!education.matches(':focus-within'))setEducationStep(0);},1000);
+    });
+    education.addEventListener('focusin',()=>clearTimeout(educationLeaveTimer));
+    window.addEventListener('resize',requestEducationLayout);
+    window.visualViewport?.addEventListener('resize',requestEducationLayout);
+    window.addEventListener('pageshow',requestEducationLayout);
+    compactHome.addEventListener('change',()=>{clearTimeout(educationLeaveTimer);setEducationStep(educationIndex);requestEducationLayout();updateEducationPlayback();});
+    document.fonts.ready.then(requestEducationLayout);
+    setEducationStep(0);requestEducationLayout();
     // Cinta continua a 18 px/s, incluso cuando caben todos los accesos.
     const productScroll=$('.product-scroll'),productRibbon=$('.product-shortcuts');
     const productTrack=document.createElement('div'),productGroup=document.createElement('div');
@@ -1602,7 +1574,7 @@
     function syncHomeSectionOrder(){
       const sections=compactHome.matches?[educationSection,converterSection,rewardCarousel,appSection]:[rewardCarousel,converterSection,educationSection,appSection];
       rewardSection.append(...sections);
-      invalidateEducationGeometry();
+      requestEducationLayout();
     }
     compactHome.addEventListener('change',syncHomeSectionOrder);syncHomeSectionOrder();
 
