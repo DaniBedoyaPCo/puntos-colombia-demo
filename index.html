@@ -778,9 +778,9 @@
         const panel=document.getElementById(trigger.getAttribute('aria-controls'));
         if(mobileLayout.matches){['top','left','max-height'].forEach(name=>panel.style.removeProperty(name));return;}
         if(trigger.getAttribute('aria-expanded')!=='true')return;
-        const contentRect=headerContent.getBoundingClientRect(),headerRect=siteHeader.getBoundingClientRect(),triggerRect=trigger.getBoundingClientRect();
+        const contentRect=headerContent.getBoundingClientRect(),triggerRect=trigger.getBoundingClientRect();
         const viewport=window.visualViewport,viewportLeft=viewport?.offsetLeft||0,viewportWidth=viewport?.width||innerWidth,viewportBottom=(viewport?.offsetTop||0)+(viewport?.height||innerHeight);
-        const top=headerRect.bottom+8;
+        const top=triggerRect.bottom+4;
         panel.style.top=(top-contentRect.top)+'px';
         panel.style.maxHeight=Math.max(0,viewportBottom-top-16)+'px';
         const left=Math.max(viewportLeft+16,Math.min(triggerRect.left,viewportLeft+viewportWidth-panel.offsetWidth-16));
