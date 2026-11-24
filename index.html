@@ -522,6 +522,78 @@
       @supports(-webkit-touch-callout:none){.search-field textarea{font-size:16px}}
       @media(max-width:340px){.site-header.has-session .primary-navigation{gap:16px}}
     }
+    /* Ajuste móvil 1289:33826. Conserva los componentes y acuerdos posteriores. */
+    .brand-logo picture{display:contents}
+    @media(max-width:760px){
+      .hero-layout{width:calc(100% - 32px)}
+      .promotions{width:calc(100% - 8.6px);margin-inline:auto}
+      .product-shortcuts{width:calc(100% - 27px);max-width:none;height:86px;padding:0}
+      .product-scroll{height:100%;padding:0;margin:0}
+      .product-track,.product-group{gap:0}
+      .product-chip,.product-chip:first-child{flex:none;flex-direction:column;width:82px;height:86px;min-height:86px;padding:8px;gap:12px;border-radius:8px;background:transparent;color:#1d2939;font-size:12px;line-height:18px}
+      .product-chip:hover{background:#f8f7ff}
+      .product-icon{width:46px;height:46px}
+      .brands{gap:16px}
+      .brands h2,.reward-carousel h2,.faq h2{font-size:20px;line-height:30px;font-weight:700;letter-spacing:0;color:#101828}
+      .brand-grid{width:calc(100% - 37px);gap:11px 15px}
+      .brand-card.frisby{background:#f8c02d;border-color:transparent}
+      .brand-card.americanino{background:#021831;border-color:#021831;padding-top:10px;gap:6px}
+      .brand-card.americanino .brand-logo{height:auto}
+      .brand-card.americanino .brand-badge{padding:2px 0;background:#d3ddff;color:#41558c;font-weight:500}
+      .brand-slot--all{height:56px;min-height:56px}
+      .brands .all-brands,.brands .all-brands:hover,.brands .all-brands:focus-visible{align-items:center;justify-content:space-between;padding:12px;border:1px solid #d0d5dd;border-radius:14px;background:#f8f7ff;color:#475467}
+      .all-brands h3{font-size:20px;line-height:30px;letter-spacing:0}
+      .all-link{font-size:15px;line-height:22px;gap:8px;color:#475467}
+      .all-link img{width:21px;height:21px;filter:none}
+      .reward-carousel h2{max-width:370px;width:calc(100% - 32px)}
+      .reward-back{padding:18.414px;background:rgba(125,69,244,.9)}
+      .reward-back h3{font-weight:600}
+      .reward-back p{margin-top:6px}
+      .reward-back .pill{padding:8px 14px;font-size:14px;line-height:20px;gap:8px}
+      .reward-back .pill img{width:20px;height:20px}
+      .reward-controls{height:36px;gap:24px}
+      .reward-arrow{position:relative}
+      .reward-arrow:before{content:'';position:absolute;inset:-4px}
+      .app-section{min-height:366px;padding:20px 0;background:#f2f5ff;align-items:flex-start}
+      .app-copy{gap:8px}
+      .app-copy h2{padding-top:12px;font-size:20px;line-height:30px;font-weight:700;color:#101828}
+      .app-copy>p{font-size:14px;line-height:20px}
+      .app-benefits{padding-bottom:14px;font-size:14px;line-height:20px;gap:4px;color:#5000b4}
+      .app-stores{justify-content:flex-start;gap:7px;margin:0}
+      .app-stores a{flex:0 1 102px}
+      .app-stores a:nth-child(2){flex-basis:114.75px}
+      .app-stores a:nth-child(3){flex-basis:113.047px}
+      .faq h2{margin:0}
+      .faq-items{display:block;padding:30px 0}
+      .faq details,.faq details+details{padding:0;border:0;border-bottom:1px solid #eaecf0}
+      .faq summary,.faq details:last-child summary{position:relative;min-height:72px;padding:18px 30px 18px 0;font-size:14px;line-height:21px}
+      .faq-icon{position:absolute;right:0;top:18px;width:24px;height:36px;margin:0;background:none!important;color:#667085;font-size:24px;line-height:36px;text-align:center}
+      .faq-icon:before{content:'+'}
+      .faq details[open] .faq-icon:before{content:'−'}
+      .faq details>p{margin:-22px 30px 18px 0;font-size:12px;line-height:19px}
+      .help-button{margin-top:0}
+      .sic-logo{width:172px;height:37.527px;margin:32px 0 40px}
+      .footer-stores{width:343px;max-width:100%;margin-inline:auto}
+      .footer-stores a{flex:0 1 101px}
+      .footer-stores a:nth-child(2){flex-basis:108px}
+      .footer-stores a:nth-child(3){flex-basis:102px}
+      .footer-bottom{padding:40px 32px;gap:40px}
+      .social-links>span{width:78px;font-size:12px;line-height:18px}
+      .copyright{font-size:10px;line-height:14px;overflow-wrap:anywhere}
+    }
+    @media(max-width:380px){
+      .brands .all-brands{padding-inline:10px;gap:6px}
+      .all-brands h3{font-size:18px;line-height:26px}
+      .all-link{font-size:13px;gap:4px}
+      .all-link img{width:18px;height:18px}
+      .social-links{gap:18px}
+    }
+    @media(max-width:340px){
+      .all-brands h3{font-size:16px;line-height:24px}
+      .all-link{font-size:12px}
+      .social-links{gap:12px}
+      .social-links>span{width:64px}
+    }
   </style>
 </head>
 <body id="inicio">
@@ -1015,15 +1087,20 @@
     new IntersectionObserver(entries=>{educationVisible=entries[0].isIntersecting;updateEducationPlayback();},{threshold:.2}).observe(education);
     education.addEventListener('focusin',updateEducationPlayback);education.addEventListener('focusout',()=>setTimeout(updateEducationPlayback,0));
     document.addEventListener('visibilitychange',updateEducationPlayback);educationMotion.addEventListener('change',updateEducationPlayback);
-    let educationGeometry=null,educationScrollFrame=0,educationGeometryDirty=true;
+    let educationGeometry=null,educationScrollFrame=0,educationGeometryDirty=true,educationViewportFit=null;
+    function resetEducationStack(){
+      educationContents.forEach(content=>content.style.removeProperty('opacity'));
+      educationCards.forEach(card=>{card.inert=false;card.removeAttribute('aria-hidden');['transform','opacity','visibility'].forEach(name=>card.style.removeProperty(name));});
+      educationGeometry=null;
+    }
     function updateEducationScroll(){
       educationScrollFrame=0;
-      const mobile=compactHome.matches,stack=mobile&&!educationMotion.matches&&innerHeight>=560;
+      const mobile=compactHome.matches,headerHeight=Math.ceil(siteHeader.getBoundingClientRect().height);
+      const viewportKey=innerWidth+':'+innerHeight+':'+headerHeight;
+      const stack=mobile&&!educationMotion.matches&&innerHeight>=560&&(educationViewportFit?.key!==viewportKey||educationViewportFit.fits);
       education.classList.toggle('is-scroll-stack',stack);education.classList.toggle('is-static-stack',mobile&&!stack);
       if(!stack){
-        educationContents.forEach(content=>content.style.removeProperty('opacity'));
-        educationCards.forEach(card=>{card.inert=false;card.removeAttribute('aria-hidden');['transform','opacity','visibility'].forEach(name=>card.style.removeProperty(name));});
-        educationGeometry=null;return;
+        resetEducationStack();return;
       }
       if(educationGeometryDirty||!educationGeometry||educationGeometry.viewportHeight!==innerHeight){
         educationGeometryDirty=false;
@@ -1037,7 +1114,10 @@
         }));
         education.style.setProperty('--education-card-height',height+'px');
         const stageHeight=educationStage.offsetHeight;
-        const headerHeight=56;
+        educationViewportFit={key:viewportKey,fits:stageHeight+headerHeight+16<=innerHeight};
+        if(!educationViewportFit.fits){
+          education.classList.remove('is-scroll-stack');education.classList.add('is-static-stack');resetEducationStack();return;
+        }
         const top=Math.max(headerHeight+8,Math.round((innerHeight-stageHeight+headerHeight)/2));
         const travel=Math.max(520,Math.round(innerHeight*.4)*2);
         education.style.setProperty('--education-stage-height',stageHeight+'px');
@@ -1125,7 +1205,8 @@
     const brandPanel=$('#brand-panel');
     const brandTypes=['frisby','frisby','frisby','americanino','frisby','frisby','frisby','americanino','frisby','americanino','frisby','americanino','frisby','frisby'];
     const brandAssets={frisby:'assets/new-b110d.b987e7af1eaf.svg',americanino:'assets/new-3c084.6892a6205766.svg',sony:'assets/figma-ae289.99f537408d29.svg'};
-    brandTypes.forEach((type,i)=>{const slot=document.createElement('div');slot.className='brand-slot';const name=type==='sony'?'Sony':type==='americanino'?'Americanino':'Frisby';slot.innerHTML=`<button class="brand-card ${type}" type="button" data-prototype-unlinked aria-label="${name}${type==='americanino'?', nuevo':type==='sony'?', oferta':''}"><span class="brand-logo"><img src="${brandAssets[type]}" alt=""></span>${type==='frisby'?'':`<span class="brand-badge">${type==='americanino'?'Nuevo':'Oferta'}</span>`}</button>`;brandPanel.append(slot);});
+    const mobileBrandAssets={frisby:'assets/mobile-brand-frisby.5c4275b47ec4.svg',americanino:'assets/mobile-brand-americanino.0e1d387ea9d0.svg'};
+    brandTypes.forEach((type,i)=>{const slot=document.createElement('div');slot.className='brand-slot';const name=type==='sony'?'Sony':type==='americanino'?'Americanino':'Frisby';slot.innerHTML=`<button class="brand-card ${type}" type="button" data-prototype-unlinked aria-label="${name}${type==='americanino'?', nuevo':type==='sony'?', oferta':''}"><span class="brand-logo"><picture>${mobileBrandAssets[type]?`<source media="(max-width:760px)" srcset="${mobileBrandAssets[type]}">`:''}<img src="${brandAssets[type]}" alt=""></picture></span>${type==='frisby'?'':`<span class="brand-badge">${type==='americanino'?'Nuevo':'Oferta'}</span>`}</button>`;brandPanel.append(slot);});
     const lastBrand=document.createElement('div');lastBrand.className='brand-slot brand-slot--all';lastBrand.innerHTML='<a class="brand-card all-brands" href="#marcas" aria-label="Ver todas las marcas aliadas"><h3>Y más de 1000 aliados</h3><span class="all-link">Ver todo<img src="assets/new-78c95.9dae284067ae.svg" alt=""></span></a>';brandPanel.append(lastBrand);
 
     function primaxMarkup(){return `<span class="promotion-artwork" aria-hidden="true"><img class="promotion-photo" src="assets/figma-2e3a2.769f479f86a8.webp" alt=""><span class="promotion-art a"><img src="assets/figma-2bcb6.7778a6ed9d5f.svg" alt=""></span><span class="promotion-art b"><img src="assets/figma-e79fe.0e95dc303fee.svg" alt=""></span><span class="promotion-art c"><img src="assets/proposal-230b5.c6e4ee838988.svg" alt=""></span><span class="promotion-art d"><img src="assets/proposal-d0f3f.82a35e28ffea.svg" alt=""></span><span class="promotion-art e"><img src="assets/figma-83cc9.bdb46e26560a.svg" alt=""></span></span><span class="promotion-copy"><span class="primax-logo"><img src="assets/figma-e8a79.5619201ca0fe.png" alt="Primax"></span><h1>Tanquea y Acumula Puntos</h1><p>Da tu cédula en estaciones Primax</p><span class="yellow-button">Ver estaciones</span></span>`;}
@@ -1515,6 +1596,15 @@
     $$('[data-prototype-unlinked]').forEach(el=>el.addEventListener('click',e=>e.preventDefault()));
     window.addEventListener('resize',()=>{positionPromotion();rewardPosition=Math.min(rewardWindow.scrollLeft,rewardLimit());});
     document.fonts.ready.then(positionPromotion);
+
+    // Mantiene el orden de lectura y de teclado del frame móvil y restaura el de escritorio.
+    const rewardSection=$('.rewards'),rewardCarousel=$('.reward-carousel'),converterSection=$('.shop-converter');
+    function syncHomeSectionOrder(){
+      const sections=compactHome.matches?[educationSection,converterSection,rewardCarousel,appSection]:[rewardCarousel,converterSection,educationSection,appSection];
+      rewardSection.append(...sections);
+      invalidateEducationGeometry();
+    }
+    compactHome.addEventListener('change',syncHomeSectionOrder);syncHomeSectionOrder();
 
     const footerGroups=$$('.footer-group');
     footerGroups.forEach((group,i)=>{
