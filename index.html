@@ -35,9 +35,10 @@
     .search-row{display:flex;align-items:center;height:40px;border:1px solid var(--border);border-radius:8px;background:#fff;overflow:hidden}
     .search-row:focus-within{border-color:#7d45f4;box-shadow:0 0 0 2px #fff,0 0 0 4px #6821d9}
     .search-field{display:flex;align-items:center;gap:8px;flex:1;min-width:0;height:100%;padding:0 4px 0 12px}
-    .search-field input{width:100%;min-width:0;border:0;padding:0;background:transparent;font-size:14px;line-height:22px;color:#1d2939;appearance:none;text-overflow:ellipsis}
+    .search-field textarea{display:block;width:100%;min-width:0;height:22px;min-height:22px;margin:0;border:0;padding:0;resize:none;overflow:hidden;background:transparent;font:inherit;font-size:14px;line-height:22px;color:#1d2939;appearance:none;white-space:nowrap;text-overflow:ellipsis;outline:none}
     .search-field input::-webkit-search-cancel-button{display:none}
-    .search-field input::placeholder{color:var(--muted);opacity:1}
+    .search-field textarea::placeholder{color:var(--muted);opacity:1}
+    .search-submit-label,.mobile-session{display:none}
     .search-submit{display:flex;align-items:center;justify-content:center;align-self:stretch;width:44px;flex:none;border-left:1px solid var(--border)}
     .search-submit:hover{background:#f9fafb}
     .clear-search{display:flex;align-items:center;justify-content:center;width:40px;height:40px;flex:none;border-radius:8px}
@@ -379,7 +380,7 @@
       .header-shell{height:120px}
       .utility-navigation{height:64px}
       .search-row{height:48px}
-      .search-field input{font-size:16px;line-height:24px;letter-spacing:-.032px}
+      .search-field textarea{font-size:16px;line-height:24px;letter-spacing:-.032px}
       .search-submit,.clear-search{width:48px;min-height:48px}
       .header-search .suggestions{top:56px;height:min(532px,var(--search-panel-height,532px));grid-template-columns:minmax(0,1fr);grid-template-rows:auto 17px 252px;align-content:start;align-items:start;gap:0;padding:4px 8px 20px;overflow:auto}
       .suggestion-options{padding:0;min-width:0}
@@ -477,10 +478,48 @@
     .site-header:has(.nav-trigger[aria-expanded="true"]) .utility-navigation{filter:blur(8px);opacity:.55}
     .site-header.search-open :is(.primary-navigation>.logo,.primary-navigation>.login,.nav-trigger,.nav-link,.mobile-account,.mobile-menu-button){filter:blur(8px);opacity:.55}
     .site-header.search-open .nav-dropdown,.site-header:has(.nav-trigger[aria-expanded="true"]) .header-search :is(.suggestions,.conversation,.search-status){display:none!important;transition:none!important}
-    .site-header :is(button,a,input):focus-visible{outline:none}
+    .site-header :is(button,a,input,textarea):focus-visible{outline:none}
     .site-header .search-row:focus-within{border-color:var(--border);box-shadow:none}
     @media(min-width:1001px){
       .nav-dropdown{overflow-y:auto;overscroll-behavior:contain}
+    }
+    /* Header mobile — especificaciones Figma 1452:34198. */
+    @media(max-width:1000px){
+      .header-shell{height:112px}
+      .utility-navigation{height:auto;min-height:56px;padding:8px 16px}
+      .search-row{height:40px}
+      .search-field textarea{height:22px;min-height:22px;font-size:14px;line-height:22px;white-space:pre-wrap;overflow-wrap:anywhere}
+      .search-submit{width:44px;min-height:38px}
+      .clear-search{width:40px;min-height:38px;height:38px}
+      .search-submit,.mobile-menu-button,.mobile-account{position:relative}
+      .mobile-menu-button:before,.mobile-account:before{content:'';position:absolute;inset:-2px}
+      .header-search :is(.suggestions,.conversation,.search-status){top:calc(100% + 8px)}
+      .site-header.has-no-search .primary-navigation{height:72px;padding:16px}
+      .site-header.has-no-search .utility-navigation{display:none}
+      .header-shell:has(.site-header.has-no-search){height:72px}
+      .site-header.mobile-open .navigation-panel{height:var(--mobile-menu-height,calc(100dvh - 72px))}
+      .site-header.mobile-open .menu-column>strong{display:flex;align-items:center;min-height:36px;font-weight:600}
+      .site-header.mobile-open .mobile-session{display:none}
+      .site-header.has-session .mobile-account,.site-header.has-session .mobile-navigation-footer .login{display:none}
+      .mobile-session{align-items:center;flex:none;gap:8px;padding:4px 12px;border-radius:8px;background:#eaecf0;color:#475467;font-size:14px;line-height:20px;font-weight:600;white-space:nowrap}
+      .mobile-session>.icon{width:24px;height:24px}
+      .site-header.has-session:not(.mobile-open) .mobile-session{display:flex}
+      .site-header.has-session .primary-navigation{gap:24px}
+      .mobile-session-balance{display:flex;align-items:center;gap:8px;color:#5e00cc}
+      .mobile-session-mark{position:relative;display:block;width:13.632px;height:16px}
+      .mobile-session-mark img{position:absolute;left:0;top:0;width:13.632px;height:16px}
+      .mobile-session-mark img+img{left:3.6125px;top:3.2735px;width:6.4062px;height:7.0866px}
+      .search-shell.is-multiline .search-row{height:auto;display:flex;flex-direction:column;align-items:flex-end;gap:16px;border:0;overflow:visible}
+      .search-shell.is-multiline .search-field{flex:none;width:100%;height:auto;min-height:40px;align-items:flex-start;gap:12px;padding:8px 4px 8px 12px;border:1px solid var(--border);border-radius:8px}
+      .search-shell.is-multiline .search-field>.icon{margin-top:1px}
+      .search-shell.is-multiline textarea{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+      .search-shell.is-multiline .clear-search{height:40px;min-height:40px;margin-top:-8px}
+      .search-shell.is-multiline .search-submit{width:106px;height:36px;min-height:36px;align-self:flex-end;gap:8px;border:1px solid var(--border);border-radius:32px;color:#344054;font-size:14px;line-height:20px;font-weight:600}
+      .search-shell.is-multiline .search-submit:before{content:'';position:absolute;inset:-4px}
+      .search-shell.is-multiline .search-submit-label{display:inline}
+      .header-shell:has(.search-shell.is-multiline){height:var(--header-visible-height,112px)}
+      @supports(-webkit-touch-callout:none){.search-field textarea{font-size:16px}}
+      @media(max-width:340px){.site-header.has-session .primary-navigation{gap:16px}}
     }
   </style>
 </head>
@@ -488,7 +527,7 @@
   <a class="skip" href="#contenido">Ir al contenido</a>
   <div class="header-backdrop" aria-hidden="true" data-figma-node="1161:25626"></div>
   <div class="header-shell">
-  <header class="site-header" data-figma-node="1395:25244" data-mobile-figma-node="1161:27172">
+  <header class="site-header" data-figma-node="1395:25244" data-mobile-figma-node="1452:34198">
     <nav class="audience-navigation" aria-label="Tipo de visitante"><div class="audience-content"><a href="#inicio" aria-current="page">Personas</a><a href="#empresas">Empresas</a><a href="#acerca">Puntos Colombia Corporativo</a></div></nav>
     <div class="header-content">
     <div class="primary-navigation">
@@ -511,22 +550,23 @@
         <div class="mobile-navigation-footer">
           <a href="#empresas">Empresas</a>
           <a href="#acerca">Puntos Colombia Corporativo</a>
-          <a href="#preguntas" class="mobile-support"><img src="assets/mobile-support.d6b8c517bc72.svg" alt="">Soporte</a>
+          <a href="#preguntas" class="mobile-support" hidden><img src="assets/mobile-support.d6b8c517bc72.svg" alt="">Soporte</a>
           <button class="login" type="button" data-prototype-unlinked>Inicia sesión</button>
         </div>
       </div>
       <button class="login" type="button" data-prototype-unlinked>Inicia sesión</button>
       <button class="mobile-account" type="button" aria-label="Inicia sesión" data-prototype-unlinked><img src="assets/mobile-account.4e1d50e50168.svg" alt=""></button>
+      <div class="mobile-session" aria-label="Saldo de Puntos"><img class="icon" src="assets/mobile-account.4e1d50e50168.svg" alt=""><span>Tienes</span><span class="mobile-session-balance"><span class="mobile-session-mark" role="img" aria-label="Puntos"><img src="assets/figma-fc529.7bce3d9e2e9e.svg" alt=""><img src="assets/figma-fcb22.179adf72883e.svg" alt=""></span><span class="mobile-session-points"></span></span></div>
       <button class="mobile-menu-button" type="button" aria-label="Abrir menú" aria-controls="header-navigation-panel" aria-expanded="false"><img class="mobile-menu-open-icon" src="assets/mobile-menu.aa90cc8c58ae.svg" alt=""><img class="mobile-menu-close-icon" src="assets/mobile-menu-close.deae8249f084.svg" alt=""></button>
     </div>
     <div class="utility-navigation"><div class="utility-search">
     <div class="search-section header-search" aria-label="Buscador de Puntos" data-figma-node="1395:31583">
       <div class="search-shell" data-state="placeholder">
         <form class="search-row" id="header-search-form" role="search">
-          <div class="search-field"><img class="icon" src="assets/proposal-2ac4c.a885f822758d.svg" alt=""><input id="header-search-input" type="search" role="combobox" autocomplete="off" placeholder="Pregúntame lo que quieras" aria-label="Buscar en Puntos Colombia" aria-describedby="search-keyboard-help" aria-autocomplete="list" aria-haspopup="listbox" aria-controls="header-search-options" aria-expanded="false"><button class="clear-search" hidden type="button" aria-label="Limpiar búsqueda"><img src="assets/search-close.83a3ff534bf9.svg" alt=""></button></div>
-          <button class="search-submit" type="submit" aria-label="Buscar"><img class="icon search-magnifier" src="assets/proposal-253d1.558d52636a3b.svg" alt=""></button>
+          <div class="search-field"><img class="icon" src="assets/proposal-2ac4c.a885f822758d.svg" alt=""><textarea id="header-search-input" rows="1" role="combobox" autocomplete="off" enterkeyhint="search" placeholder="Pregúntame lo que quieras" aria-label="Buscar en Puntos Colombia" aria-describedby="search-keyboard-help" aria-autocomplete="list" aria-haspopup="listbox" aria-controls="header-search-options" aria-expanded="false"></textarea><button class="clear-search" hidden type="button" aria-label="Limpiar búsqueda"><img src="assets/search-close.83a3ff534bf9.svg" alt=""></button></div>
+          <button class="search-submit" type="submit" aria-label="Buscar"><img class="icon search-magnifier" src="assets/proposal-253d1.558d52636a3b.svg" alt=""><span class="search-submit-label">Buscar</span></button>
         </form>
-        <span class="sr-only" id="search-keyboard-help">Escribe tu pregunta. Usa las flechas para recorrer las sugerencias, Enter para buscar y Escape para cerrar.</span>
+        <span class="sr-only" id="search-keyboard-help">Escribe tu pregunta. Usa las flechas para recorrer las sugerencias, Enter para buscar y Escape para cerrar. En consultas de varias líneas, usa Alt y las flechas para recorrer sugerencias y Mayús y Enter para añadir una línea.</span>
         <span class="sr-only" id="search-announcement" role="status" aria-live="polite" aria-atomic="true"></span>
         <p class="search-unavailable" id="search-unavailable" hidden>La búsqueda no está disponible en este momento.</p>
         <div class="search-status" id="header-search-status" hidden role="status" aria-live="polite" aria-atomic="true">
@@ -675,6 +715,7 @@
       const listOpen=state==='suggestions'||state==='results';
       const active=listOpen||['focused','filled-focused','loading','empty','error','answer'].includes(state);
       shell.dataset.state=state;
+      siteHeader.classList.toggle('has-no-search',!searchAvailable);
       shell.classList.toggle('active',active);
       siteHeader.classList.toggle('search-open',active);
       utilityLinks.inert=active;
@@ -770,10 +811,18 @@
     }
     window.puntosSearch={
       setProvider(provider){cancelSearch();searchProvider=provider||localSearchProvider;closeSearch();},
-      setAvailable(available){searchAvailable=!!available;cancelSearch();closeSearch();},
+      setAvailable(available){
+        searchAvailable=!!available;
+        if(!searchAvailable&&mobileLayout.matches&&shell.contains(document.activeElement))mobileButton.focus({preventScroll:true});
+        cancelSearch();closeSearch();
+      },
       get state(){return shell.dataset.state;}
     };
     function updateHeaderPanels(){
+      if(mobileLayout.matches){
+        const viewport=window.visualViewport,viewportBottom=(viewport?.offsetTop||0)+(viewport?.height||innerHeight);
+        siteHeader.style.setProperty('--mobile-menu-height',Math.max(0,viewportBottom-$('.primary-navigation').getBoundingClientRect().bottom)+'px');
+      }
       triggers.forEach(trigger=>{
         const panel=document.getElementById(trigger.getAttribute('aria-controls'));
         if(mobileLayout.matches){['top','left','max-height'].forEach(name=>panel.style.removeProperty(name));return;}
@@ -787,7 +836,21 @@
         panel.style.left=(left-contentRect.left)+'px';
       });
     }
+    function updateSearchField(){
+      const previousScroll=search.scrollTop;
+      shell.classList.remove('is-multiline');search.style.height='22px';
+      if(!mobileLayout.matches)return;
+      // Primero se mide el ancho compacto; al crecer, Buscar pasa a otra fila.
+      const multiline=search.scrollHeight>24;
+      shell.classList.toggle('is-multiline',multiline);
+      if(!multiline)return;
+      const viewportHeight=window.visualViewport?.height||innerHeight;
+      const maximum=Math.max(22,Math.min(264,Math.floor(viewportHeight*.4),viewportHeight-158));
+      search.style.height=Math.min(search.scrollHeight,maximum)+'px';
+      search.scrollTop=previousScroll;
+    }
     function updateSearchGeometry(){
+      updateSearchField();
       const headerRect=$('.utility-search').getBoundingClientRect(),searchRect=$('.header-search').getBoundingClientRect();
       shell.style.setProperty('--search-available-width',Math.max(0,headerRect.right-searchRect.left)+'px');
       const viewport=window.visualViewport,viewportBottom=viewport?viewport.offsetTop+viewport.height:window.innerHeight;
@@ -811,7 +874,11 @@
     });
     search.addEventListener('keydown',event=>{
       if(event.isComposing)return;
+      if(event.key==='Enter'&&(!mobileLayout.matches||!event.shiftKey)){
+        event.preventDefault();$('#header-search-form').requestSubmit();return;
+      }
       if(event.key==='ArrowDown'||event.key==='ArrowUp'){
+        if(shell.classList.contains('is-multiline')&&!event.altKey)return;
         event.preventDefault();
         cancelSearch();
         if(suggestions.hidden)filterSearch();
@@ -854,7 +921,7 @@
       headerScrollFrame=0;
       headerScrolled=window.scrollY>64?true:window.scrollY<=4?false:headerScrolled;
       siteHeader.classList.toggle('is-scrolled',headerScrolled);
-      const nextCompact=headerScrolled&&!headerHovered&&!siteHeader.contains(document.activeElement)&&!siteHeader.classList.contains('mobile-open');
+      const nextCompact=!mobileLayout.matches&&headerScrolled&&!headerHovered&&!siteHeader.contains(document.activeElement)&&!siteHeader.classList.contains('mobile-open');
       if(nextCompact===headerCompact)return;
       headerCompact=nextCompact;
       if(headerCompact){
@@ -879,6 +946,19 @@
     siteHeader.addEventListener('pointerleave',event=>{if(event.pointerType==='mouse'){headerHovered=false;requestHeaderUpdate();}});
     window.addEventListener('blur',()=>{headerHovered=false;requestHeaderUpdate();});
     updateHeaderForScroll();
+
+    // Estado de presentación; la autenticación y las opciones de cuenta no se simulan.
+    window.puntosHeader={
+      setUser(user){
+        const points=user?.points,loggedIn=typeof points==='number'&&Number.isFinite(points)&&points>=0;
+        $('.mobile-session-points').textContent=loggedIn?Math.floor(points).toLocaleString('es-CO'):'';
+        siteHeader.classList.toggle('has-session',loggedIn);
+        $('.mobile-session').setAttribute('aria-label',loggedIn?'Tienes '+Math.floor(points).toLocaleString('es-CO')+' Puntos':'Saldo de Puntos');
+        updateSearchGeometry();
+      }
+    };
+    if(new URLSearchParams(location.search).get('sesion')==='demo')window.puntosHeader.setUser({points:27060});
+    document.fonts.ready.then(updateSearchGeometry);
 
 
     // En móvil las tarjetas se revelan con el scroll nativo dentro de una etapa sticky.
@@ -1337,7 +1417,20 @@
     educationMotion.addEventListener('change',requestAppRevealUpdate);
     document.addEventListener('visibilitychange',()=>{if(document.hidden)finishAppMorph();else requestAppRevealUpdate();});
     requestAppRevealUpdate();
-    document.addEventListener('keydown',e=>{if(e.key==='Escape'){const activeTrigger=triggers.find(t=>t.getAttribute('aria-expanded')==='true');closeMenus();closeSearch();closeMobile();activeTrigger?.focus();}});
+    document.addEventListener('keydown',e=>{
+      const mobileOpen=mobileLayout.matches&&siteHeader.classList.contains('mobile-open');
+      if(e.key==='Escape'){
+        const activeTrigger=triggers.find(t=>t.getAttribute('aria-expanded')==='true');
+        closeMenus();closeSearch();closeMobile();
+        if(mobileOpen)mobileButton.focus({preventScroll:true});else activeTrigger?.focus();
+      }
+      if(e.key==='Tab'&&mobileOpen){
+        const controls=$$('a[href],button:not(:disabled),textarea:not(:disabled)',siteHeader).filter(el=>el.getClientRects().length&&getComputedStyle(el).visibility!=='hidden');
+        const first=controls[0],last=controls.at(-1);
+        if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+        else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+      }
+    });
     // Destinos pendientes de integración que no están conectados en Figma.
     $$('[data-prototype-unlinked]').forEach(el=>el.addEventListener('click',e=>e.preventDefault()));
     window.addEventListener('resize',()=>{positionPromotion();rewardPosition=Math.min(rewardWindow.scrollLeft,rewardLimit());});
