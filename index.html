@@ -432,6 +432,11 @@
       .primary-navigation{height:48px;padding-block:0}
       .nav-dropdown{top:48px}
       .utility-navigation{background:#fff}
+      .audience-navigation{transition:height .24s ease,margin-bottom .24s ease}
+      .primary-navigation{transition:height .24s ease}
+      .site-header.is-scrolled .audience-navigation{height:4px;margin-bottom:0}
+      .site-header.is-scrolled .audience-content{visibility:hidden}
+      .site-header.is-scrolled .primary-navigation{height:64px}
     }
     @media(min-width:761px) and (max-width:1100px){.shop-copy{width:46%}.shop-copy h2{font-size:26px;line-height:34px;gap:8px}.shop-copy>p{font-size:14px;line-height:22px}.shop-results{top:105px}.shop-feature{width:72%}.shop-product-details{bottom:16px;font-size:12px;line-height:18px}.shop-product-details h3,.shop-product-details strong{font-size:12px;line-height:18px}}
     @media(max-width:760px){
@@ -811,11 +816,15 @@
     window.visualViewport?.addEventListener('scroll',updateSearchGeometry);
 
     // La reserva de altura evita saltos de contenido al contraer la cabecera sticky.
-    const utilityNavigation=$('.utility-navigation'),headerRoot=document.documentElement;
+    const utilityNavigation=$('.utility-navigation'),audienceNavigation=$('.audience-navigation'),headerRoot=document.documentElement;
     let headerCompact=false,headerScrolled=false,headerHovered=false,headerScrollFrame=0;
     function updateHeaderForScroll(){
       headerScrollFrame=0;
       headerScrolled=window.scrollY>64?true:window.scrollY<=4?false:headerScrolled;
+      if(headerScrolled&&audienceNavigation.contains(document.activeElement))$('.logo').focus({preventScroll:true});
+      audienceNavigation.inert=headerScrolled;
+      audienceNavigation.setAttribute('aria-hidden',String(headerScrolled));
+      siteHeader.classList.toggle('is-scrolled',headerScrolled);
       const nextCompact=headerScrolled&&!headerHovered&&!siteHeader.contains(document.activeElement)&&!siteHeader.classList.contains('mobile-open');
       if(nextCompact===headerCompact)return;
       headerCompact=nextCompact;
