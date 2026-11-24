@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Todo lo que compras te da Puntos. Todo lo que sueñas se hace realidad al instante.">
+  <link rel="icon" type="image/svg+xml" href="assets/figma-fc529.7bce3d9e2e9e.svg">
   <title>Puntos Colombia — Vive tus Puntos</title>
   <style>
     @font-face{font-family:Poppins;src:url('assets/poppins-regular.cdedb1729aca.ttf') format('truetype');font-weight:400;font-display:swap}
@@ -32,16 +33,31 @@
     .search-shell.active{width:max(100%,min(1056px,var(--search-available-width,1056px)))}
     .site-header.search-open .utility-links{visibility:hidden;pointer-events:none}
     .search-row{display:flex;align-items:center;height:40px;border:1px solid var(--border);border-radius:8px;background:#fff;overflow:hidden}
-    .search-row:focus-within{box-shadow:0 0 0 3px #ded6ff}
-    .search-field{display:flex;align-items:center;gap:8px;flex:1;min-width:0;padding:8px 12px}
-    .search-field input{width:100%;min-width:0;border:0;padding:0;background:transparent;font-size:14px;line-height:22px;color:var(--ink);appearance:none}
+    .search-row:focus-within{border-color:#7d45f4;box-shadow:0 0 0 2px #fff,0 0 0 4px #6821d9}
+    .search-field{display:flex;align-items:center;gap:8px;flex:1;min-width:0;height:100%;padding:0 4px 0 12px}
+    .search-field input{width:100%;min-width:0;border:0;padding:0;background:transparent;font-size:14px;line-height:22px;color:#1d2939;appearance:none;text-overflow:ellipsis}
     .search-field input::-webkit-search-cancel-button{display:none}
     .search-field input::placeholder{color:var(--muted);opacity:1}
     .search-submit{display:flex;align-items:center;justify-content:center;align-self:stretch;width:44px;flex:none;border-left:1px solid var(--border)}
     .search-submit:hover{background:#f9fafb}
-    .clear-search{display:flex;align-items:center;justify-content:center;width:24px;height:24px;flex:none;border-radius:26px}
+    .clear-search{display:flex;align-items:center;justify-content:center;width:40px;height:40px;flex:none;border-radius:8px}
     .clear-search:hover{background:#f2f4f7}
     .clear-search img{width:20px;height:20px}
+    .search-shell[data-state=loading] .search-row:focus-within,.search-shell[data-state=answer] .search-row:focus-within,.search-shell[data-state=error] .search-row:focus-within,.search-shell[data-state=empty] .search-row:focus-within{border-color:var(--border);box-shadow:none}
+    .search-shell[data-state=disabled] .search-row{background:#fcfcfd}
+    .search-shell[data-state=disabled] .search-field,.search-shell[data-state=disabled] .search-submit{opacity:.55}
+    .search-row button:disabled{cursor:default}
+    .search-unavailable{margin-top:8px;color:var(--text);font-size:14px;line-height:22px}
+    .search-status{position:absolute;top:48px;left:0;z-index:8;width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:20px;background:#f8f7ff;border:1px solid #0000001a;border-radius:8px;box-shadow:0 12px 16px -4px #00000014,0 4px 6px -2px #00000008;font-size:14px;line-height:22px;max-height:var(--search-panel-height);overflow:auto;overscroll-behavior:contain}
+    .search-status-heading{display:flex;align-items:center;gap:8px}
+    .search-status-heading strong{font-weight:500;color:#1d2939}
+    .search-status>p{color:var(--text)}
+    .search-retry{display:flex;align-items:center;justify-content:center;gap:4px;min-height:44px;padding:10px 14px;border-radius:9999px;color:var(--text);font-size:14px;line-height:22px;font-weight:600}
+    .search-retry:hover{background:#eeebff}
+    .retry-touch{display:none}
+    .search-shell[data-state=loading] .search-status-heading img{animation:search-spin 1s linear infinite}
+    @keyframes search-spin{to{transform:rotate(360deg)}}
+    @media(prefers-reduced-motion:reduce){.search-shell[data-state=loading] .search-status-heading img{animation:none}}
     .nav-dropdown{position:absolute;top:71px;z-index:7;left:194px;display:flex;gap:24px;padding:16px 32px 32px;border-radius:0 0 16px 16px;background:#fff;box-shadow:0 1px 3px #1018281a,0 1px 2px #1018280f;max-width:calc(100% - 48px)}
     .nav-dropdown.uses{left:288px}
     .menu-column{width:325px;display:flex;flex-direction:column;gap:16px}
@@ -51,20 +67,20 @@
     .menu-item:hover{background:#f9fafb}
     .menu-item strong{display:block;font-weight:500}
     .menu-item>span{display:block;color:var(--text);font-size:14px;line-height:20px;margin-top:4px}
-    .header-search .suggestions{position:absolute;top:46px;left:0;z-index:8;width:100%;height:min(226px,var(--search-panel-height,226px));margin:0;display:grid;grid-template-columns:minmax(0,1fr) 1px 384px;grid-template-rows:minmax(0,1fr);align-items:start;gap:16px;padding:8px 16px;border:1px solid #eaecf0;border-radius:8px;background:#fff;box-shadow:0 12px 16px -4px #10182814,0 4px 6px -2px #10182808;overflow:hidden}
-    .suggestion-options{min-width:0;height:100%;overflow-y:auto;padding:4px 6px;scrollbar-width:thin;scrollbar-color:#eaecf0 transparent}
-    .suggestion-options button{display:block;width:100%;margin:2px 0 4px;padding:10px 8px;text-align:left;border-radius:6px;font-weight:500;line-height:24px}
+    .header-search .suggestions{position:absolute;top:48px;left:0;z-index:8;width:100%;height:min(282px,var(--search-panel-height,282px));margin:0;display:grid;grid-template-columns:minmax(0,1fr) 1px 384px;grid-template-rows:minmax(0,1fr);align-items:center;gap:16px;padding:16px 24px 16px 16px;border:1px solid #eaecf0;border-radius:8px;background:#fff;box-shadow:0 12px 16px -4px #10182814,0 4px 6px -2px #10182808;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#eaecf0 transparent}
+    .suggestion-options{display:flex;flex-direction:column;min-width:0;padding:4px 6px}
+    .suggestion-options button{display:block;flex:none;width:100%;margin:2px 0;padding:10px 8px;text-align:left;border-radius:6px;font-size:16px;font-weight:500;line-height:24px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .suggestion-options button:hover,.suggestion-options button[aria-selected=true]{background:#f9fafb}
     .suggestions small{color:var(--text);font-size:inherit;font-weight:400;margin-left:8px}
-    .suggestion-divider{width:1px;height:248px;overflow:hidden;margin-top:28px}
+    .suggestion-divider{width:1px;height:248px;overflow:hidden;margin:0}
     .suggestion-divider img{transform:rotate(90deg);transform-origin:.5px .5px}
-    .suggestion-preview{height:264px;background:#d9d9d9}
-    .header-search .conversation{position:absolute;top:46px;left:0;z-index:8;width:100%;margin:0;padding:24px;background:#f8f7ff;border-radius:16px;color:var(--ink);max-height:var(--search-panel-height,calc(100dvh - 160px));overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+    .suggestion-preview{height:248px;background:#d9d9d9;border-radius:8px}
+    .header-search .conversation{position:absolute;top:48px;left:0;z-index:8;width:100%;margin:0;padding:20px;background:#f8f7ff;border:1px solid #0000001a;border-radius:8px;box-shadow:0 12px 16px -4px #00000014,0 4px 6px -2px #00000008;color:var(--ink);max-height:var(--search-panel-height,calc(100dvh - 160px));overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
     .chat-answer{font-size:16px;line-height:24px}
     .chat-answer p+p{margin-top:16px}
     .chat-answer ol{margin:16px 0;padding-left:19px}
     .chat-actions{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
-    .chat-actions .pill{padding:10px 16px;font-size:14px;line-height:20px}
+    .chat-actions .pill{height:40px;padding:9px 16px;font-size:14px;line-height:20px}
     .chat-actions img{width:16px;height:16px}
     .feedback{display:flex;align-items:center;margin-top:16px}
     .feedback button{padding:12px;border-radius:32px}
@@ -294,16 +310,168 @@
     .ad-campaign-legal img{position:absolute;left:0;bottom:0;display:block;width:100%;height:auto}
     @media(max-width:1000px){.ad-card.ad-card--campaign{height:360px}}
     @media(max-width:760px){.ad-card.ad-card--campaign{height:auto;aspect-ratio:5/2}}
+    /* Propuesta seleccionada — Figma 1219:27211, noviembre de 2026. */
+    .audience-navigation{display:none}
+    main{padding-top:32px;gap:54px}
+    .hero-layout{left:0}
+    .product-shortcuts{width:calc(100% - 2*var(--gutter));max-width:1186px;height:40px;padding:0;border-radius:0;background:transparent;color:#475467;font-size:18px;line-height:28px}
+    .product-track,.product-group{gap:24px}
+    .product-chip,.product-chip:first-child{flex:none;min-height:40px;padding:0 8px 0 0;gap:8px;background:#f8f7ff;font-size:18px;line-height:28px;color:#475467}
+    .product-chip:hover{background:#ded6ff}
+    .product-icon{display:flex;align-items:center;justify-content:center;flex:none;width:40px;height:40px;border:6px solid #ded6ff;border-radius:28px;background:#f8f7ff}
+    .product-icon img{width:20px;height:20px}
+    .product-scroll{padding-block:6px;margin-block:-6px}
+    .reward-title{position:absolute;inset:0 0 auto;padding:18.414px;min-height:114px;color:#fff;font-size:18.414px;line-height:24.552px;font-weight:600;background:linear-gradient(180deg,#000 0%,#0000 100%);pointer-events:none}
+    .offers{width:calc(100% - 58px);max-width:1382px;margin-inline:auto}
+    .offers-viewport{overflow-x:auto;scrollbar-width:thin;overscroll-behavior-x:contain;border-radius:16px}
+    .offers-viewport:focus-visible{outline:3px solid #9268ff;outline-offset:4px}
+    .offers-artwork{width:100%;height:auto;display:block}
+    @media(min-width:1001px){
+      .header-shell{height:184px}
+      .site-header{border-radius:0 0 12px 12px}
+      .header-content{width:100%;max-width:none;padding:0;gap:8px}
+      .audience-navigation{display:block;height:32px;margin-bottom:8px;background:#d0d5dd;overflow:hidden}
+      .audience-content{display:flex;width:calc(100% - 2*var(--gutter));max-width:1216px;height:32px;margin:auto;align-items:center}
+      .audience-content a{display:flex;align-items:center;height:32px;padding:0 12px;font-size:12px;line-height:18px;color:#475467;white-space:nowrap}
+      .audience-content a[aria-current=page]{font-weight:600}
+      .audience-content a:hover{background:#eaecf0}
+      .primary-navigation{width:calc(100% - 2*var(--gutter));max-width:1216px;height:64px;padding-block:16px;margin-inline:auto;gap:22px}
+      .nav-links{margin:0;flex:1;width:auto}
+      .navigation-panel{display:flex;flex:1;min-width:0}
+      .utility-navigation{height:72px;gap:0;padding:16px 0;background:#f8f7ff;border-radius:0 0 12px 12px}
+      .utility-search{flex:none;width:calc(100% - 2*var(--gutter));max-width:1216px;margin-inline:auto}
+      .utility-links{display:none}
+      .search-shell.active{width:100%}
+      .site-header.is-compact .utility-navigation{padding-block:0}
+      .nav-dropdown{top:64px;left:calc(max(var(--gutter),(100% - 1216px)/2) + 112px)}
+      .nav-dropdown.uses{left:calc(max(var(--gutter),(100% - 1216px)/2) + 400px)}
+      .header-search .suggestions{height:min(282px,var(--search-panel-height,282px))}
+    }
+    @media(min-width:1001px) and (max-width:1250px){
+      .primary-navigation,.utility-search,.audience-content{width:calc(100% - 64px)}
+      .primary-navigation{gap:12px}
+      .nav-trigger,.nav-link{padding-inline:10px;font-size:14px;gap:8px}
+      .product-shortcuts{max-width:calc(100% - 64px)}
+    }
+    @media(max-width:1000px){
+      main{padding-top:24px}
+      .utility-links{display:none}
+      .utility-search{flex:1;width:100%}
+      .product-shortcuts{height:44px}
+      .offers{width:calc(100% - 40px)}
+      .offers-artwork{min-width:1000px}
+    }
+    @media(max-width:760px){
+      main{gap:32px}
+      .product-shortcuts{width:calc(100% - 40px);padding:0}
+      .product-track,.product-group{gap:16px}
+      .product-chip,.product-chip:first-child{min-height:44px;font-size:16px;line-height:24px;padding:0 8px 0 0}
+      .reward-title{display:none}
+      .offers-viewport{padding-bottom:8px}
+    }
+    @media(max-width:1000px){
+      .header-shell{height:120px}
+      .utility-navigation{height:64px}
+      .search-row{height:48px}
+      .search-field input{font-size:16px;line-height:24px;letter-spacing:-.032px}
+      .search-submit,.clear-search{width:48px;min-height:48px}
+      .header-search .suggestions{top:56px;height:min(532px,var(--search-panel-height,532px));grid-template-columns:minmax(0,1fr);grid-template-rows:auto 17px 252px;align-content:start;align-items:start;gap:0;padding:4px 8px 20px;overflow:auto}
+      .suggestion-options{padding:0;min-width:0}
+      .suggestion-options button{font-size:16px;line-height:24px;min-height:48px;margin:0;padding:12px 8px}
+      .suggestions small{display:none}
+      .suggestion-divider{display:block;width:calc(100% - 46px);height:1px;margin:8px 23px;background:#eaecf0}
+      .suggestion-divider img{display:none}
+      .suggestion-preview{display:block;height:252px;width:calc(100% - 14px);margin-inline:7px}
+      .header-search .conversation,.search-status{top:56px;padding:20px}
+      .chat-answer{font-size:14px;line-height:20px}
+      .chat-actions{align-items:flex-start}
+      .chat-actions .pill{min-height:48px}
+      .feedback button{min-width:48px;min-height:48px}
+      .retry-desktop{display:none}.retry-touch{display:inline}
+      .search-retry{min-height:48px}
+    }
+
+    /* Actualización del frame 1219:27211 — 24 de noviembre de 2026. */
+    .shop-converter{width:calc(100% - 2*var(--gutter) + 1px);max-width:1217px}
+    .shop-board{position:relative;width:100%;aspect-ratio:1217/669;border:1px solid var(--border);border-radius:16px;background:#fff;isolation:isolate}
+    .shop-ring{position:absolute;inset:0;pointer-events:none;transition:opacity .2s}
+    .shop-tile{position:absolute;left:var(--x);top:var(--y);width:var(--w);aspect-ratio:1;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 4px 8px -2px #1018281a,0 2px 4px -2px #1018280f}
+    .shop-tile img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:fill}
+    .shop-copy{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:510px;max-width:calc(100% - 40px);display:flex;flex-direction:column;gap:16px;text-align:center;z-index:2}
+    .shop-copy h2{display:flex;align-items:center;justify-content:center;gap:16px;color:#344054;font-size:36px;line-height:44px;letter-spacing:-.72px;white-space:nowrap}
+    #shop-points{box-sizing:content-box;width:4ch;min-width:4ch;max-width:9ch;height:24px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;background:#fff;box-shadow:0 1px 2px #1018280d;font-size:16px;line-height:24px;font-weight:600;color:#344054;text-align:center;letter-spacing:0;transition:width .15s}
+    #shop-points::placeholder{color:#98a2b3;opacity:1}
+    #shop-points:focus{border-color:#7d45f4;outline:2px solid #6821d9;outline-offset:2px}
+    .shop-copy>p{font-size:16px;line-height:24px;color:#101828}
+    #shop-status{color:#475467;font-size:14px;line-height:22px}
+    .shop-board[data-active=true] .shop-ring{opacity:.12}
+    .shop-board[data-active=true] .shop-copy{top:24px;transform:translateX(-50%);width:90%;gap:8px}
+    .shop-board[data-active=true] #shop-description{display:none}
+    .shop-results{position:absolute;inset:135px 0 16px;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+    .shop-feature{position:relative;width:55%;max-width:669px;height:395px;max-height:calc(100% - 85px);overflow:hidden;border:1px solid var(--border);border-radius:16px;background:#fff}
+    .shop-feature-image{position:absolute;left:13.09%;top:8.92%;width:73.92%;height:82.04%;object-fit:contain}
+    .shop-feature:after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(to top,#000,transparent 60%);pointer-events:none}
+    .shop-feature[data-product="1"] .shop-feature-image{inset:0;width:100%;height:100%;object-fit:cover}
+    .shop-feature[data-product="2"] .shop-feature-image{left:5.49%;top:-28.48%;width:89.28%;height:151.22%}
+    .shop-product-details{position:absolute;z-index:1;bottom:24px;left:16px;right:16px;display:flex;justify-content:center;align-items:center;gap:8px;color:#fff;font-size:14px;line-height:22px}
+    .shop-product-details>div{padding-left:8px;border-left:1px solid #ffffff70}
+    .shop-product-details h3,.shop-product-details strong{font-size:14px;line-height:22px;font-weight:500}
+    .shop-product-details p{color:#d0d5dd}
+    .shop-seller{width:40px;height:40px;border-radius:50%;flex:none}
+    .shop-pagination{display:flex;align-items:center;gap:16px}
+    .shop-pagination>button{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--border);border-radius:50%;background:#fff}
+    .shop-pagination>button:hover{background:#f8f7ff}.shop-pagination img{width:20px;height:20px}.shop-previous img{transform:rotate(180deg)}
+    .shop-pages{display:flex;gap:4px}.shop-pages button{position:relative;width:44px;height:44px}.shop-pages button:after{content:"";position:absolute;width:8px;height:8px;top:18px;left:18px;border-radius:50%;background:#d0d5dd}.shop-pages button[aria-current=true]:after{background:#6821d9}
+    .shop-demo-note{font-size:12px;line-height:18px;color:#475467;text-align:center}
+    @media(min-width:1001px){
+      .header-shell{height:168px}
+      .audience-navigation{background:#6821d9}
+      .audience-content a{color:#fff}
+      .audience-content a[aria-current=page]{font-weight:700}
+      .audience-content a:hover{background:#ffffff1a}
+      .primary-navigation{height:48px;padding-block:0}
+      .nav-dropdown{top:48px}
+      .utility-navigation{background:#fff}
+    }
+    @media(min-width:761px) and (max-width:1100px){.shop-copy{width:46%}.shop-copy h2{font-size:26px;line-height:34px;gap:8px}.shop-copy>p{font-size:14px;line-height:22px}.shop-results{top:105px}.shop-feature{width:72%}.shop-product-details{bottom:16px;font-size:12px;line-height:18px}.shop-product-details h3,.shop-product-details strong{font-size:12px;line-height:18px}}
+    @media(max-width:760px){
+      .shop-converter{width:calc(100% - 40px)}
+      .shop-board{aspect-ratio:auto;min-height:470px;overflow:hidden}
+      .shop-ring{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(2,auto);align-content:space-between;gap:12px;inset:20px}
+      .shop-tile{position:relative;left:auto;top:auto;width:100%;border-radius:12px}
+      .shop-tile:nth-child(n+9){display:none}
+      .shop-copy{width:calc(100% - 32px);max-width:none;gap:16px}
+      .shop-copy h2{font-size:24px;line-height:32px;letter-spacing:-.48px;gap:8px;flex-wrap:wrap}
+      #shop-points{height:30px;padding:8px;min-width:4ch}
+      .shop-copy>p{font-size:16px;line-height:24px}
+      .shop-board[data-active=true]{min-height:620px}
+      .shop-board[data-active=true] .shop-copy{top:24px;width:calc(100% - 32px)}
+      .shop-board[data-active=true] .shop-ring{opacity:.06}
+      .shop-results{inset:140px 16px 20px;gap:12px}
+      .shop-feature{width:100%;height:340px;max-height:none;flex:1}
+      .shop-product-details{left:12px;right:12px;bottom:16px;display:grid;grid-template-columns:40px 1fr;gap:12px;font-size:14px;line-height:22px}
+      .shop-product-details>div{padding:0;border:0}.shop-product-details>div:nth-last-child(-n+2){grid-column:2}
+      .shop-product-details h3,.shop-product-details strong{font-size:14px;line-height:22px}
+      .shop-demo-note{font-size:12px;line-height:18px}
+      .ad-card{height:408px;width:100%;margin:0;padding:24px;align-items:flex-end;justify-content:flex-end;gap:17.134px;background:#7d45f4}
+      .ad-photo{left:0;top:-18.19%;width:100%;height:128.67%;clip-path:none;object-fit:cover}
+      .ad-contour{display:flex;left:-58.9px;top:110.3px}
+      .ad-card h2{width:301.984px;max-width:100%;margin:0;text-align:right;font-size:clamp(20px,6.15vw,24px);line-height:32px;font-weight:600}
+      .ad-card a{margin:0;font-size:clamp(16px,4.9vw,19.22px);line-height:29.898px}
+      .ad-badge{top:24px;right:24px;left:auto;padding:2px 10px;font-size:14px;line-height:20px}
+    }
+    @media(prefers-reduced-motion:reduce){.shop-ring,#shop-points{transition:none}}
   </style>
 </head>
 <body id="inicio">
   <a class="skip" href="#contenido">Ir al contenido</a>
   <div class="header-backdrop" aria-hidden="true" data-figma-node="1161:25626"></div>
   <div class="header-shell">
-  <header class="site-header" data-figma-node="1219:27300" data-mobile-figma-node="1161:27172">
+  <header class="site-header" data-figma-node="1395:25244" data-mobile-figma-node="1161:27172">
+    <nav class="audience-navigation" aria-label="Tipo de visitante"><div class="audience-content"><a href="#inicio" aria-current="page">Personas</a><a href="#empresas">Empresas</a><a href="#acerca">Puntos Colombia Corporativo</a></div></nav>
     <div class="header-content">
     <div class="primary-navigation">
-      <a class="logo" href="#inicio" aria-label="Puntos Colombia, inicio"><img class="logo-mark" src="assets/figma-fc529.7bce3d9e2e9e.svg" alt=""><img class="logo-counter" src="assets/figma-fcb22.179adf72883e.svg" alt=""><img class="logo-colombia" src="assets/figma-f747c.0c455aa68731.svg" alt=""><img class="logo-puntos" src="assets/header-logo-puntos.369c8de28c37.svg" alt=""></a>
+      <a class="logo" href="#inicio" aria-label="Puntos Colombia, inicio"><img class="logo-mark" src="assets/figma-fc529.7bce3d9e2e9e.svg" alt=""><img class="logo-counter" src="assets/figma-fcb22.179adf72883e.svg" alt=""><img class="logo-colombia" src="assets/proposal-12ecf.0c455aa68731.svg" alt=""><img class="logo-puntos" src="assets/proposal-8bf07.b0b7c8ccc905.svg" alt=""></a>
       <div class="navigation-panel" id="header-navigation-panel" data-figma-node="1161:27173">
         <nav class="nav-links" id="main-navigation" aria-label="Navegación principal">
           <div class="nav-group">
@@ -331,12 +499,19 @@
       <button class="mobile-menu-button" type="button" aria-label="Abrir menú" aria-controls="header-navigation-panel" aria-expanded="false"><img class="mobile-menu-open-icon" src="assets/mobile-menu.aa90cc8c58ae.svg" alt=""><img class="mobile-menu-close-icon" src="assets/mobile-menu-close.deae8249f084.svg" alt=""></button>
     </div>
     <div class="utility-navigation"><div class="utility-search">
-    <div class="search-section header-search" aria-label="Buscador de Puntos" data-figma-node="1132:8385">
+    <div class="search-section header-search" aria-label="Buscador de Puntos" data-figma-node="1395:31583">
       <div class="search-shell" data-state="placeholder">
         <form class="search-row" id="header-search-form" role="search">
-          <div class="search-field"><img class="icon" src="assets/header-search-icon.90597b119bbe.svg" alt=""><input id="header-search-input" type="search" role="combobox" autocomplete="off" placeholder="Preguntame lo que quieras" aria-label="Pregúntame lo que quieras" aria-autocomplete="list" aria-haspopup="listbox" aria-controls="header-search-options" aria-expanded="false"><button class="clear-search" hidden type="button" aria-label="Cerrar búsqueda"><img src="assets/search-close.5bcca7db8b47.svg" alt=""></button></div>
-          <button class="search-submit" type="submit" aria-label="Buscar"><img class="icon" src="assets/figma-107cb.14e5f59af544.svg" alt=""></button>
+          <div class="search-field"><img class="icon" src="assets/proposal-2ac4c.a885f822758d.svg" alt=""><input id="header-search-input" type="search" role="combobox" autocomplete="off" placeholder="Pregúntame lo que quieras" aria-label="Buscar en Puntos Colombia" aria-describedby="search-keyboard-help" aria-autocomplete="list" aria-haspopup="listbox" aria-controls="header-search-options" aria-expanded="false"><button class="clear-search" hidden type="button" aria-label="Limpiar búsqueda"><img src="assets/search-close.83a3ff534bf9.svg" alt=""></button></div>
+          <button class="search-submit" type="submit" aria-label="Buscar"><img class="icon search-magnifier" src="assets/proposal-253d1.558d52636a3b.svg" alt=""></button>
         </form>
+        <span class="sr-only" id="search-keyboard-help">Escribe tu pregunta. Usa las flechas para recorrer las sugerencias, Enter para buscar y Escape para cerrar.</span>
+        <span class="sr-only" id="search-announcement" role="status" aria-live="polite" aria-atomic="true"></span>
+        <p class="search-unavailable" id="search-unavailable" hidden>La búsqueda no está disponible en este momento.</p>
+        <div class="search-status" id="header-search-status" hidden role="status" aria-live="polite" aria-atomic="true">
+          <div class="search-status-heading"><img class="icon" src="assets/search-spinner.8870275dcf2e.svg" alt="" hidden><strong></strong></div>
+          <p></p><button class="search-retry" type="button" hidden><span class="retry-desktop">Hubo un error, reintentar</span><span class="retry-touch">Intentar de nuevo</span><img class="icon" src="assets/search-retry.d352cb96a66c.svg" alt=""></button>
+        </div>
         <div class="suggestions" id="header-search-suggestions" hidden>
           <div class="suggestion-options" id="header-search-options" role="listbox" tabindex="-1" aria-label="Preguntas sugeridas">
             <button id="search-option-0" type="button" role="option" aria-selected="false" tabindex="-1">¿Cómo veo mis Puntos Acumulados?<small>App</small></button>
@@ -348,13 +523,13 @@
           <span class="suggestion-divider" aria-hidden="true"><img src="assets/search-divider.023adbcb07a1.svg" alt=""></span>
           <div class="suggestion-preview" aria-hidden="true"></div>
         </div>
-        <div class="conversation" id="header-search-answer" hidden role="region" aria-label="Respuesta de ejemplo" aria-live="polite">
+        <div class="conversation" id="header-search-answer" hidden role="region" aria-label="Respuesta a tu búsqueda" aria-live="polite">
           <div class="chat-answer">
-            <p>¡Es muy fácil! Para acumular Puntos en las tiendas físicas de nuestras Marcas Aliadas:</p>
+            <div class="answer-content"><p>¡Es muy fácil! Para acumular Puntos en las tiendas físicas de nuestras Marcas Aliadas:</p>
             <ol><li>Haz tu compra como siempre.</li><li>Antes de pagar, di en caja que quieres acumular Puntos Colombia.</li><li>Da tu número de documento de identidad.</li></ol>
             <p>Listo, tus Puntos se suman a tu cuenta. Puedes ver tu saldo y tus movimientos en la app o en la web.</p>
             <p>¿Aún no estás registrado? Regístrate y empieza a acumular Puntos en las compras de tu día a día.</p>
-            <div class="chat-actions"><button type="button" class="pill" data-prototype-unlinked>Registrarme</button><a class="pill" href="#marcas">Ver marcas</a><a class="pill" href="#experiencias" data-prototype-unlinked>Ir a Tienda Online<img src="assets/search-external-link.dd6db7140da3.svg" alt=""></a></div>
+            </div><div class="chat-actions"><button type="button" class="pill" data-prototype-unlinked>Registrarme</button><a class="pill" href="#marcas">Ver marcas</a><a class="pill" href="#experiencias" data-prototype-unlinked>Ir a Tienda Online<img src="assets/search-external-link.dd6db7140da3.svg" alt=""></a></div>
             <div class="feedback" aria-label="¿Te sirvió esta respuesta?"><button type="button" aria-label="La respuesta fue útil" aria-pressed="false"><img src="assets/23c8d.2f87efe66bd0.svg" alt=""></button><button type="button" aria-label="La respuesta no fue útil" aria-pressed="false"><img src="assets/b8114.6deb882df7c4.svg" alt=""></button></div>
           </div>
         </div>
@@ -368,30 +543,49 @@
   <main id="contenido">
     <section class="hero-layout" aria-label="Promociones y marcas destacadas" data-figma-node="1219:27214">
       <div class="promotions" aria-label="Promociones"><div class="promotion-viewport" tabindex="0" aria-label="Carrusel de promociones. Usa las flechas para cambiar."><div class="promotion-track" id="promotion-track"></div></div><div class="carousel-dots" aria-label="Seleccionar promoción"><button type="button" aria-label="Promoción Primax" aria-current="true"></button><button type="button" aria-label="Promoción Puntosmanía" aria-current="false"></button><button type="button" aria-label="Promoción Primax 2" aria-current="false"></button></div></div>
-      <article class="ad-card ad-card--campaign" aria-label="Publicidad de Puntos Colombia e inDrive"><picture><source media="(max-width:760px)" srcset="assets/banner-indrive-mobile.16745f591d42.webp" width="1983" height="793"><img class="ad-campaign-image" src="assets/banner-indrive-desktop.2665c6a704eb.webp" width="1162" height="1353" alt="Puntos Colombia e inDrive. Elegir se siente justo. Elige tu precio, elige tu conductor. Descarga inDrive."></picture><span class="ad-campaign-legal" aria-hidden="true"><img src="assets/banner-indrive.2ad9e5a28392.png" width="636" height="541" alt=""></span></article>
+      <article class="ad-card" aria-label="Publicidad de cuidado de la piel" data-figma-node="1394:10994"><img class="ad-photo" src="assets/figma-46422.bcceb292e2ae.webp" alt="Mujer aplicando crema en su rostro"><span class="ad-contour" aria-hidden="true"><img src="assets/figma-4f1ab.c4d5a336548e.svg" alt=""></span><span class="ad-badge">AD</span><h2>Para tu piel y rostro, siempre lo mejor.</h2><a href="#ofertas">Redime tus Puntos<img src="assets/figma-0f706.9a39e244904f.svg" width="22" height="22" alt=""></a></article>
     </section>
-    <nav class="product-shortcuts container" aria-label="Productos" data-figma-node="1360:20925">
-      <span class="product-label">Productos</span>
+    <nav class="product-shortcuts container" aria-label="Productos" data-figma-node="1394:8705">
       <div class="product-scroll">
-        <a href="#experiencias" class="product-chip"><img src="assets/product-packages.81d85e024f03.svg" alt="">Paquetes<span class="product-new">¡Nuevo!</span></a>
-        <a href="#experiencias" class="product-chip"><img src="assets/product-travel.dc9b99461a79.svg" alt="">Viajes</a>
-        <a href="#experiencias" class="product-chip"><img src="assets/product-services.cc45fd6698a3.svg" alt="">Servicios</a>
-        <a href="#experiencias" class="product-chip"><img src="assets/product-miles.a684da373d52.svg" alt="">Millas</a>
-        <a href="#experiencias" class="product-chip"><img src="assets/product-gift.b1fcf67abe3f.svg" alt="">Bonos</a>
-        <a href="#experiencias" class="product-chip"><img src="assets/product-store.c6cd1befaaf6.svg" alt="">Tienda</a>
-        <a href="#experiencias" class="product-chip"><img src="assets/product-soat.cb0364cac73d.svg" alt="">SOAT</a>
-        <a href="#experiencias" class="product-chip"><img src="assets/product-challenges.196f93cee6bb.svg" alt="">Retos</a>
+        <a href="#experiencias" class="product-chip"><span class="product-icon"><img src="assets/proposal-a1a35.dc9b99461a79.svg" alt=""></span>Viajes</a>
+        <a href="#experiencias" class="product-chip"><span class="product-icon"><img src="assets/proposal-38b0e.9d66cdc88a06.svg" alt=""></span>Servicios</a>
+        <a href="#como-funciona" class="product-chip"><span class="product-icon"><img src="assets/proposal-0333e.7134745b696e.svg" alt=""></span>Gana Puntos</a>
+        <a href="#experiencias" class="product-chip"><span class="product-icon"><img src="assets/proposal-524e3.1d388fcc89a3.svg" alt=""></span>Bonos</a>
+        <a href="#ofertas" class="product-chip"><span class="product-icon"><img src="assets/proposal-81b32.c6cd1befaaf6.svg" alt=""></span>Tienda</a>
+        <a href="#experiencias" class="product-chip"><span class="product-icon"><img src="assets/proposal-85339.cb0364cac73d.svg" alt=""></span>SOAT</a>
+        <a href="#experiencias" class="product-chip"><span class="product-icon"><img src="assets/proposal-b8d64.74df08fa2460.svg" alt=""></span>Transfiere</a>
+        <a href="#como-funciona" class="product-chip"><span class="product-icon"><img src="assets/proposal-975de.f6ebb3792fd9.svg" alt=""></span>Retos</a>
       </div>
     </nav>
     <section class="brands container" id="marcas" aria-labelledby="brands-title" data-figma-node="1219:27237"><h2 id="brands-title">Acumula y Redime en marcas de todo el país</h2><div class="brand-grid" id="brand-panel"></div></section>
-<section class="education" id="como-funciona" aria-labelledby="education-title" data-figma-node="1219:29703" data-step="0"><h2 id="education-title">Aprovecha tus Puntos</h2><div class="education-cards container"><article id="education-panel-0" class="education-card is-current" aria-labelledby="education-heading-0"><img class="education-card-icon" src="assets/new-00a60.7ac27fe8c7c1.svg" alt=""><h3 id="education-heading-0">Únete</h3><p>Crea tu cuenta gratis y empieza a disfrutar un mundo de posibilidades</p><button class="yellow-button" type="button" data-prototype-unlinked>Regístrate<img src="assets/new-6d8b2.de80ceecda39.svg" alt=""></button></article><article id="education-panel-1" class="education-card" aria-labelledby="education-heading-1"><img class="education-card-icon" src="assets/new-78205.e4486774603f.svg" alt=""><h3 id="education-heading-1">Acumula</h3><p>Suma puntos con tus compras de todos los días en nuestras Marcas Aliadas</p><a class="pill" href="#marcas">Ver Aliados<img src="assets/new-926ea.b445ddffa808.svg" alt=""></a></article><article id="education-panel-2" class="education-card" aria-labelledby="education-heading-2"><img class="education-card-icon" src="assets/new-274ba.c3f880b967b1.svg" alt=""><h3 id="education-heading-2">Disfruta</h3><p>Usa tus Puntos en viajes, experiencias, productos y mucho más</p><a class="pill" href="#experiencias">Explora beneficios<img src="assets/new-926ea.b445ddffa808.svg" alt=""></a></article></div><div class="education-progress" role="group" aria-label="Pasos para disfrutar tus Puntos"><button class="education-step is-current" type="button" aria-label="Paso 1: Únete" aria-pressed="true" aria-controls="education-panel-0"><span class="step-dot"><img src="assets/education-dot-current.9ddb226b500a.svg" alt=""></span></button><span class="education-line" aria-hidden="true"></span><button class="education-step" type="button" aria-label="Paso 2: Acumula" aria-pressed="false" aria-controls="education-panel-1"><span class="step-dot"><img src="assets/education-dot.f9c9915d6fd1.svg" alt=""></span></button><span class="education-line" aria-hidden="true"></span><button class="education-step" type="button" aria-label="Paso 3: Disfruta" aria-pressed="false" aria-controls="education-panel-2"><span class="step-dot"><img src="assets/education-dot.f9c9915d6fd1.svg" alt=""></span></button></div></section>
+
     <section class="rewards" aria-label="Vive tus Puntos" data-figma-node="1241:33007">
       <div class="reward-carousel" id="experiencias"><div class="container"><h2>¿Cómo quieres vivir tus Puntos hoy?</h2></div><div class="reward-window" tabindex="0" role="region" aria-roledescription="carrusel" aria-label="Formas de disfrutar tus Puntos. Arrastra horizontalmente o usa las flechas para explorar."><div class="reward-track" id="reward-track"></div></div></div>
+    </section>
+    <section class="shop-converter container" id="ofertas" aria-labelledby="shop-title" data-figma-node="1429:15870">
+      <div class="shop-board" data-active="false">
+        <div class="shop-ring" aria-hidden="true"><span class="shop-tile" style="--x:4.51%;--y:45.101644%;--w:10.8800%" data-figma-node="1429:14523"><img src="assets/update-47559.6748f232f85f.webp" alt="" style="object-fit:cover"></span><span class="shop-tile" style="--x:16.27%;--y:32.005979%;--w:10.8800%" data-figma-node="1429:14524"><img src="assets/update-6300d.c843d341f973.webp" alt="" style="object-fit:cover"></span><span class="shop-tile" style="--x:32.72%;--y:10.582960%;--w:10.8800%" data-figma-node="1429:14525"><img src="assets/update-cd52b.3641d1f11ac8.webp" alt="" style="left:1.92%;top:1.72%;width:96.43%;height:96.43%"></span><span class="shop-tile" style="--x:20.88%;--y:71.083707%;--w:10.8700%" data-figma-node="1429:14526"><img src="assets/update-7a465.f279a80d687b.webp" alt="" style="object-fit:cover"></span><span class="shop-tile" style="--x:80.09%;--y:10.582960%;--w:10.8700%" data-figma-node="1429:14527"><img src="assets/update-1b083.bcc572a0aca2.webp" alt="" style="left:6.55%;top:-8.23%;width:87.97%;height:116.2%"></span><span class="shop-tile" style="--x:44.56%;--y:71.083707%;--w:10.8800%" data-figma-node="1429:14528"><img src="assets/update-3b38a.b16bd9e2977e.png" alt="" style="left:9.17%;top:8.18%;width:82.38%;height:82.38%"></span><span class="shop-tile" style="--x:56.4%;--y:66.541106%;--w:10.8800%" data-figma-node="1429:14529"><img src="assets/update-0e2c7.d047a618fd3c.webp" alt="" style="left:7.82%;top:7.13%;width:85.7%;height:85.7%"></span><span class="shop-tile" style="--x:20.88%;--y:6.040359%;--w:10.8700%" data-figma-node="1429:14530"><img src="assets/update-b0519.264346dfcc55.webp" alt="" style="left:5.58%;top:20.38%;width:90.04%;height:59.01%"></span><span class="shop-tile" style="--x:56.4%;--y:10.582960%;--w:10.8800%" data-figma-node="1429:14531"><img src="assets/update-afac3.96c4ccf89ab2.webp" alt="" style="left:0.67%;top:6.1%;width:99.86%;height:87.38%"></span><span class="shop-tile" style="--x:9.04%;--y:10.582960%;--w:10.8700%" data-figma-node="1429:14532"><img src="assets/update-e14e1.a71cdf4843c2.webp" alt="" style="left:8.73%;top:8.06%;width:83.72%;height:83.72%"></span><span class="shop-tile" style="--x:32.72%;--y:66.541106%;--w:10.8800%" data-figma-node="1429:14533"><img src="assets/update-8410a.5fb395a50865.webp" alt="" style="left:5.44%;top:-10.35%;width:90.48%;height:120.63%"></span><span class="shop-tile" style="--x:44.56%;--y:6.040359%;--w:10.8800%" data-figma-node="1429:14534"><img src="assets/update-35813.cc8a02f6a726.webp" alt="" style="left:2.16%;top:-0.64%"></span><span class="shop-tile" style="--x:9.04%;--y:66.541106%;--w:10.8700%" data-figma-node="1429:14535"><img src="assets/update-35813.cc8a02f6a726.webp" alt="" style="left:2.16%;top:-0.64%"></span><span class="shop-tile" style="--x:72.85%;--y:32.005979%;--w:10.8800%" data-figma-node="1429:14536"><img src="assets/update-94f68.aeb523cef2fa.webp" alt="" style="left:18.35%;top:4.54%;width:64.01%;height:89.59%"></span><span class="shop-tile" style="--x:80.09%;--y:66.541106%;--w:10.8700%" data-figma-node="1429:14537"><img src="assets/update-ad312.7eab5bbe0b9f.webp" alt="" style="object-fit:cover"></span><span class="shop-tile" style="--x:68.25%;--y:71.083707%;--w:10.8700%" data-figma-node="1429:14538"><img src="assets/update-2d45d.04f490de8f2d.png" alt="" style="left:3.97%;top:3.39%;width:92.45%;height:92.45%"></span><span class="shop-tile" style="--x:84.61%;--y:44.985052%;--w:10.8800%" data-figma-node="1429:14539"><img src="assets/update-513a4.dc69ce2b1cf3.webp" alt="" style="left:-2.85%;top:13.7%;width:106.67%;height:72.05%"></span><span class="shop-tile" style="--x:68.25%;--y:6.040359%;--w:10.8700%" data-figma-node="1429:14540"><img src="assets/update-6502d.c817c3b527a7.webp" alt="" style="object-fit:cover"></span></div>
+        <form class="shop-copy" novalidate>
+          <h2 id="shop-title"><label for="shop-points">Si tienes</label><input id="shop-points" name="points" type="text" inputmode="numeric" autocomplete="off" maxlength="11" placeholder="0000" aria-label="Cantidad de Puntos" aria-describedby="shop-description shop-status"><span>Puntos...</span></h2>
+          <p id="shop-description">¡Ingresa los puntos que tienes y accede a una selección de productos que tenemos para ti!</p>
+          <button hidden type="submit">Explorar productos con mis Puntos</button>
+          <p id="shop-status" role="status" aria-live="polite" hidden></p>
+        </form>
+        <div class="shop-results" hidden role="region" aria-label="Productos de demostración">
+          <article class="shop-feature" aria-live="polite">
+            <img class="shop-feature-image" src="assets/update-68df0.9523a941777d.webp" alt="Control DualSense PS5">
+            <div class="shop-product-details"><img class="shop-seller" src="assets/update-bdad3.baecdafc54a2.png" alt="Sony"><div><h3 class="shop-product-name">Control DualSense PS5</h3><p class="shop-product-seller">Vendido por: Sony</p></div><div><strong>Desde 1000 Puntos</strong><p>+ $200.000</p></div><div><strong>Acumulas hasta</strong><p class="shop-product-earned">560 Puntos</p></div></div>
+          </article>
+          <div class="shop-pagination" role="group" aria-label="Seleccionar producto"><button type="button" class="shop-previous" aria-label="Producto anterior"><img src="assets/new-926ea.b445ddffa808.svg" alt=""></button><div class="shop-pages"><button type="button" aria-label="Ver Control DualSense PS5" aria-current="true"></button><button type="button" aria-label="Ver tenis adidas" aria-current="false"></button><button type="button" aria-label="Ver Cartera Vibra" aria-current="false"></button></div><button type="button" class="shop-next" aria-label="Siguiente producto"><img src="assets/new-926ea.b445ddffa808.svg" alt=""></button></div>
+          <p class="shop-demo-note">Selección de demostración. Los valores son ejemplos del prototipo.</p>
+        </div>
+      </div>
+    </section>
+    <section class="education" id="como-funciona" aria-labelledby="education-title" data-figma-node="1219:29703" data-step="0"><h2 id="education-title">Aprovecha tus Puntos</h2><div class="education-cards container"><article id="education-panel-0" class="education-card is-current" aria-labelledby="education-heading-0"><img class="education-card-icon" src="assets/proposal-00a60.cef296756e67.svg" alt=""><h3 id="education-heading-0">Únete</h3><p>Crea tu cuenta gratis y empieza a disfrutar un mundo de posibilidades</p><button class="yellow-button" type="button" data-prototype-unlinked>Regístrate<img src="assets/new-6d8b2.de80ceecda39.svg" alt=""></button></article><article id="education-panel-1" class="education-card" aria-labelledby="education-heading-1"><img class="education-card-icon" src="assets/new-78205.e4486774603f.svg" alt=""><h3 id="education-heading-1">Acumula</h3><p>Suma puntos con tus compras de todos los días en nuestras Marcas Aliadas</p><a class="pill" href="#marcas">Ver Aliados<img src="assets/new-926ea.b445ddffa808.svg" alt=""></a></article><article id="education-panel-2" class="education-card" aria-labelledby="education-heading-2"><img class="education-card-icon" src="assets/new-274ba.c3f880b967b1.svg" alt=""><h3 id="education-heading-2">Disfruta</h3><p>Usa tus Puntos en viajes, experiencias, productos y mucho más</p><a class="pill" href="#experiencias">Explora beneficios<img src="assets/new-926ea.b445ddffa808.svg" alt=""></a></article></div><div class="education-progress" role="group" aria-label="Pasos para disfrutar tus Puntos"><button class="education-step is-current" type="button" aria-label="Paso 1: Únete" aria-pressed="true" aria-controls="education-panel-0"><span class="step-dot"><img src="assets/education-dot-current.9ddb226b500a.svg" alt=""></span></button><span class="education-line" aria-hidden="true"></span><button class="education-step" type="button" aria-label="Paso 2: Acumula" aria-pressed="false" aria-controls="education-panel-1"><span class="step-dot"><img src="assets/education-dot.f9c9915d6fd1.svg" alt=""></span></button><span class="education-line" aria-hidden="true"></span><button class="education-step" type="button" aria-label="Paso 3: Disfruta" aria-pressed="false" aria-controls="education-panel-2"><span class="step-dot"><img src="assets/education-dot.f9c9915d6fd1.svg" alt=""></span></button></div></section>
       <section class="app-section" id="descarga" tabindex="-1" aria-labelledby="app-title" data-figma-node="1279:33713">
-        <span class="app-solid" aria-hidden="true"></span><img class="app-wave" src="assets/app-wave.8d571a1435f6.svg" alt="">
+        <span class="app-solid" aria-hidden="true"></span><img class="app-wave" src="assets/proposal-79bc1.8d571a1435f6.svg" alt="">
         <div class="app-content container"><div class="app-copy"><h2 id="app-title"><span class="app-title-desktop">Escanea este QR para descargar la app</span><span class="app-title-mobile">Tus Puntos, contigo en todo momento.</span></h2><p>Consulta tus Puntos, descubre promociones y encuentra más formas de disfrutar. Todo desde tu celular.</p><div class="app-benefits"><p>✓&nbsp; Consulta tu saldo y movimientos</p><p>✓&nbsp; Descubre tus marcas aliadas</p><p>✓&nbsp; Redime y disfruta a tu manera</p></div><div class="app-stores"><a href="#descarga" aria-label="Descargar en App Store" data-prototype-unlinked><img src="assets/figma-0efad.670c23ca381e.svg" alt="Disponible en App Store"></a><a href="#descarga" aria-label="Descargar en Google Play" data-prototype-unlinked><img src="assets/figma-bebca.568b51cd5af4.svg" alt="Disponible en Google Play"></a><a href="#descarga" aria-label="Descargar en AppGallery" data-prototype-unlinked><img src="assets/figma-222d7.3089e527c12d.svg" alt="Disponible en AppGallery"></a></div></div><img class="app-qr" src="assets/figma-d1430.dfe6b0196cb7.svg" alt="Código QR para descargar la app de Puntos Colombia"></div>
       </section>
-    </section>
     <section class="faq container" id="preguntas" aria-labelledby="faq-title" data-figma-node="1219:27296"><h2 id="faq-title">¿Tienes alguna duda?</h2><div class="faq-items"><details><summary>¿Qué es Puntos Colombia?<span class="faq-icon" aria-hidden="true"></span></summary><p>Todo lo que compras te da Puntos. Todo lo que sueñas se hace realidad al instante.</p></details><details><summary>¿Cómo puedo acumular Puntos?<span class="faq-icon" aria-hidden="true"></span></summary><p>Haz tu compra en nuestras marcas aliadas. Antes de pagar, di en caja que quieres acumular Puntos Colombia y da tu número de documento de identidad.</p></details><details open><summary>¿Dónde puedo redimir mis Puntos?<span class="faq-icon" aria-hidden="true"></span></summary><p>Puedes redimir tus Puntos en nuestras marcas aliadas, en la Tienda Online, en viajes y en bonos digitales. Explora las posibilidades y elige la que más te guste.</p></details><details><summary>¿Cómo me registro?<span class="faq-icon" aria-hidden="true"></span></summary><p>Regístrate y empieza a acumular Puntos en las compras de tu día a día.</p></details></div><a class="pill help-button" href="#recursos">Visitar centro de ayuda</a></section>
   </main>
   <footer class="footer" data-figma-node="1219:27298"><a class="back-top" href="#inicio">Volver al inicio<img src="assets/figma-7eea9.32c47b83843b.svg" alt=""></a><div class="footer-columns container"><div class="footer-column"><div class="footer-group" id="acerca"><h3>Acerca de Puntos Colombia</h3><a href="#acerca" data-prototype-unlinked>Trabaja con nosotros</a><a href="#acerca" data-prototype-unlinked>Sostenibilidad</a><a href="#acerca" data-prototype-unlinked>Noticias</a><a class="contact" href="tel:6043494371">Línea ética (604) 349 4371</a><a class="contact" href="mailto:lineaetica@puntoscolombia.com">lineaetica@puntoscolombia.com</a></div><div class="footer-group" id="recursos"><h3>Recursos</h3><a href="#preguntas">Centro de ayuda</a><a href="#recursos" data-prototype-unlinked>Documentos legales</a></div></div><div class="footer-column"><div class="footer-group"><h3>Disfruta tus Puntos</h3><a href="#preguntas">¿Cómo funciona?</a><a href="#marcas">Marcas Aliadas</a><a href="#experiencias">Tienda Online</a><a href="#experiencias">Viajes</a><a href="#experiencias" data-prototype-unlinked>Botón Puntos Colombia</a><a href="#experiencias" data-prototype-unlinked>Puntos Pay</a><a href="#experiencias" data-prototype-unlinked>Membresía</a></div><div class="footer-group" id="empresas"><h3>Empresas</h3><a href="#empresas" data-prototype-unlinked>¿Quieres ser Aliado?</a></div></div><div class="footer-column footer-contact"><div class="footer-group"><h3>Contáctanos</h3><a class="contact" href="https://wa.me/573009120488" target="_blank" rel="noopener noreferrer">Línea móvil / WhatsApp<br>(+57) 300 912 0488</a><a class="contact" href="tel:018000423600">Línea nacional 018000 423 600</a><a class="contact" href="mailto:servicio@clientes.puntoscolombia.com">servicio@clientes.puntoscolombia.com</a></div><div class="sic-logo"><img src="assets/figma-f6790.3851902e5101.png" alt="Industria y Comercio, Superintendencia"></div><div class="footer-download"><p>Descarga nuestra App:</p><div class="footer-stores"><a href="#descarga"><img src="assets/figma-4a491.553bca40639a.png" alt="App Store"></a><a href="#descarga"><img src="assets/figma-a8d94.7d163deefff0.png" alt="Google Play"></a><a href="#descarga"><img src="assets/figma-222d7.3089e527c12d.svg" alt="AppGallery"></a></div></div></div></div><div class="footer-bottom"><div class="social-links"><span>Síguenos en:</span><a class="social-white" href="#inicio" aria-label="Instagram" data-prototype-unlinked><img src="assets/figma-6bf7b.0c687fb5f861.svg" alt=""></a><a class="social-white" href="#inicio" aria-label="X" data-prototype-unlinked><img src="assets/figma-9e564.806d1eca2df1.svg" alt=""></a><a href="#inicio" aria-label="YouTube" data-prototype-unlinked><img src="assets/figma-62ba5.e002fd07e7d3.svg" alt=""></a><a href="#inicio" aria-label="TikTok" data-prototype-unlinked><img src="assets/figma-50045.5756f35670fe.svg" alt=""></a><a href="#inicio" aria-label="LinkedIn" data-prototype-unlinked><img src="assets/figma-c43da.291142dbf58c.svg" alt=""></a></div><p class="copyright">TODOS LOS DERECHOS RESERVADOS. PUNTOS COLOMBIA S.A.S. NIT: 901081311-0.<br>Carrera 48 No 32B sur 139 Piso 9 Oficina 904. Envigado, Antioquia. <a href="mailto:notificacionesjudiciales@puntoscolombia.com">notificacionesjudiciales@puntoscolombia.com</a> teléfono: <strong>01 8000 423 600.</strong> Email: <a href="mailto:servicio@clientes.puntoscolombia.com"><strong>servicio@clientes.puntoscolombia.com</strong></a></p></div></footer>
@@ -440,82 +634,164 @@
       if(event.target.closest('.nav-dropdown a,.nav-link,.mobile-navigation-footer a')){closeMobile();closeMenus();}
     });
     mobileLayout.addEventListener('change',()=>{closeMobile();closeMenus();closeSearch();requestHeaderUpdate();});
-    // Estados de Figma: Placeholder → Current (sugerencias) → Fill → Answer.
-    // La respuesta es la muestra estática del diseño; no consulta un servicio de IA.
+    // Search · Figma 1395:31583. El proveedor local usa contenido ya presente en la página.
+    // puntosSearch.setProvider permite conectar un servicio que respete AbortSignal.
     const shell=$('.header-search .search-shell'),search=$('#header-search-input'),suggestions=$('#header-search-suggestions'),conversation=$('#header-search-answer'),clear=$('.header-search .clear-search');
     const searchOptions=$$('.suggestion-options button'),utilityLinks=$('.utility-links');
-    let selectedOption=-1;
+    const searchStatus=$('#header-search-status'),searchAnnouncement=$('#search-announcement'),searchSubmit=$('.search-submit'),searchUnavailable=$('#search-unavailable');
+    const searchStars=$('.search-field>.icon'),answerContent=$('.answer-content',conversation),answerActions=$('.chat-actions',conversation);
+    const accumulationAnswer=answerContent.innerHTML,accumulationActions=answerActions.innerHTML;
+    const normalizeSearch=value=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').trim();
+    const searchTopics=[
+      {words:'consulto consultar consulta veo ver saldo movimientos acumulados app',html:'<p>Puedes ver tu saldo y tus movimientos en la app o en la web.</p>',actions:'<a class="pill" href="#descarga">Descargar la app</a>'},
+      {words:'acumular acumulo acumulacion compra compras tiendas documento marcas',html:accumulationAnswer,actions:accumulationActions},
+      {words:'redimir redencion redimo usar uso beneficios viajes tienda bonos categorias',html:'<p>Puedes redimir tus Puntos en nuestras marcas aliadas, en la Tienda Online, en viajes y en bonos digitales.</p><p>Explora las posibilidades y elige la que más te guste.</p>',actions:'<a class="pill" href="#marcas">Ver marcas</a><a class="pill" href="#experiencias">Explorar experiencias</a>'}
+    ];
+    let selectedOption=-1,searchController=null,filterTimer=0,searchAvailable=true,suppressSearchFocus=false;
+    function cancelSearch(){clearTimeout(filterTimer);searchController?.abort();searchController=null;}
     function setSearchState(state){
-      const active=state!=='placeholder',current=state==='current';
+      const listOpen=state==='suggestions'||state==='results';
+      const active=listOpen||['focused','filled-focused','loading','empty','error','answer'].includes(state);
       shell.dataset.state=state;
       shell.classList.toggle('active',active);
       siteHeader.classList.toggle('search-open',active);
       utilityLinks.inert=active;
-      clear.hidden=state!=='fill'&&state!=='answer';
-      suggestions.hidden=!current;
+      clear.hidden=!search.value.length||state==='disabled';
+      suggestions.hidden=!listOpen;
       conversation.hidden=state!=='answer';
-      search.setAttribute('aria-expanded',String(current));
-      if(!current){selectedOption=-1;search.removeAttribute('aria-activedescendant');}
+      searchStatus.hidden=!['loading','empty','error'].includes(state);
+      searchUnavailable.hidden=state!=='disabled';
+      search.disabled=state==='disabled';
+      searchSubmit.disabled=state==='disabled'||state==='loading';
+      searchStars.src=state==='disabled'?'assets/search-stars-disabled.9480c6422dee.svg':state==='placeholder'||state==='filled'?'assets/proposal-2ac4c.a885f822758d.svg':'assets/search-stars-active.34a98d20387c.svg';
+      search.setAttribute('aria-expanded',String(listOpen));
+      $('#header-search-form').setAttribute('aria-busy',String(state==='loading'));
+      if(!listOpen)selectSearchOption(-1);
+      if(state==='loading'||state==='empty'||state==='error'){
+        const messages={loading:['Buscando…','Estamos buscando resultados para tu pregunta.'],empty:['No encontramos resultados','Prueba con otras palabras o explora las preguntas sugeridas.'],error:['No pudimos hacer la búsqueda','Inténtalo de nuevo. Conservamos lo que escribiste.']};
+        $('.search-status-heading strong',searchStatus).textContent=messages[state][0];
+        $(':scope>p',searchStatus).textContent=messages[state][1];
+        $('.search-status-heading img',searchStatus).hidden=state!=='loading';
+        $('.search-retry',searchStatus).hidden=state!=='error';
+      }
       updateSearchGeometry();
     }
+    function visibleSearchOptions(){return searchOptions.filter(option=>!option.hidden);}
     function selectSearchOption(index){
       selectedOption=index;
       searchOptions.forEach((option,i)=>option.setAttribute('aria-selected',String(i===index)));
       if(index>=0){search.setAttribute('aria-activedescendant',searchOptions[index].id);searchOptions[index].scrollIntoView({block:'nearest'});}
       else search.removeAttribute('aria-activedescendant');
     }
+    function filterSearch(){
+      const query=normalizeSearch(search.value),terms=query.split(/ +/).filter(word=>word.length>2&&!['como','mis','los','las','que','con','por','para','del','una','son','cuales','puedo','puntos','colombia'].includes(word));
+      searchOptions.forEach((option,i)=>{
+        const text=normalizeSearch(option.firstChild.textContent)+' '+searchTopics[i===0?0:i%2===1?1:2].words;
+        option.hidden=!!query&&!terms.every(term=>text.includes(term));
+      });
+      selectSearchOption(-1);
+      const count=visibleSearchOptions().length;
+      setSearchState(!query?'suggestions':count?'results':'empty');
+      searchAnnouncement.textContent=count?count+' preguntas sugeridas. Usa las flechas para recorrerlas.':'';
+    }
     function openSearch(){
+      if(!searchAvailable||suppressSearchFocus)return;
       if(mobileLayout.matches)closeMobile();
       closeMenus();
-      if(shell.dataset.state==='answer')return;
-      setSearchState(search.value.trim()?'fill':'current');
-      if(!suggestions.hidden)selectSearchOption(0);
+      if(['answer','loading','error'].includes(shell.dataset.state))return;
+      filterSearch();
     }
     function closeSearch(){
-      // Conservar el foco en el control de origen cuando se cierra una respuesta.
-      if(shell.contains(document.activeElement)&&document.activeElement!==search)search.focus({preventScroll:true});
-      search.value='';
-      setSearchState('placeholder');
-      searchOptions.forEach(option=>option.setAttribute('aria-selected','false'));
+      cancelSearch();
+      // Escape y clic fuera conservan la consulta. Solo Limpiar borra el campo.
+      if(shell.contains(document.activeElement)&&document.activeElement!==search){
+        suppressSearchFocus=true;search.focus({preventScroll:true});suppressSearchFocus=false;
+      }
+      setSearchState(!searchAvailable?'disabled':search.value.length?'filled':'placeholder');
+      searchAnnouncement.textContent='';
     }
-    function showExample(question){
-      closeMenus();
-      search.value=question.trim();
-      $$('.feedback button',conversation).forEach(button=>button.setAttribute('aria-pressed','false'));
-      setSearchState('answer');
-      conversation.scrollTop=0;
+    function clearSearch(){
+      cancelSearch();search.value='';
+      suppressSearchFocus=true;search.focus({preventScroll:true});suppressSearchFocus=false;
+      filterSearch();
     }
+    const localSearchProvider=(question,{signal})=>new Promise((resolve,reject)=>{
+      const timer=setTimeout(()=>{
+        const query=normalizeSearch(question),terms=query.split(/ +/);
+        const topic=searchTopics.find(topic=>terms.some(term=>term.length>2&&topic.words.split(' ').includes(term)));
+        resolve(topic?{html:topic.html,actions:topic.actions}:null);
+      },450);
+      signal.addEventListener('abort',()=>{clearTimeout(timer);reject(new DOMException('Aborted','AbortError'));},{once:true});
+    });
+    let searchProvider=localSearchProvider;
+    async function submitSearch(question){
+      if(!searchAvailable||!question.trim()){openSearch();return;}
+      cancelSearch();closeMenus();search.value=question.trim();
+      // Buscar y Reintentar cambian de estado y pueden deshabilitarse u ocultarse.
+      // Mantener el foco en el campo evita que ese cambio cierre la petición.
+      if(shell.contains(document.activeElement)&&document.activeElement!==search){
+        suppressSearchFocus=true;search.focus({preventScroll:true});suppressSearchFocus=false;
+      }
+      const controller=new AbortController();searchController=controller;
+      setSearchState('loading');
+      try{
+        const result=await searchProvider(search.value,{signal:controller.signal});
+        if(controller.signal.aborted||searchController!==controller)return;
+        if(!result){setSearchState('empty');return;}
+        // Los proveedores entregan contenido HTML de confianza de la aplicación.
+        answerContent.innerHTML=result.html;
+        answerActions.innerHTML=result.actions||'';
+        $$('.feedback button',conversation).forEach(button=>button.setAttribute('aria-pressed','false'));
+        setSearchState('answer');conversation.scrollTop=0;
+      }catch(error){if(!controller.signal.aborted&&searchController===controller)setSearchState('error');}
+      finally{if(searchController===controller)searchController=null;}
+    }
+    window.puntosSearch={
+      setProvider(provider){cancelSearch();searchProvider=provider||localSearchProvider;closeSearch();},
+      setAvailable(available){searchAvailable=!!available;cancelSearch();closeSearch();},
+      get state(){return shell.dataset.state;}
+    };
     function updateSearchGeometry(){
-      const headerRect=headerContent.getBoundingClientRect(),searchRect=$('.header-search').getBoundingClientRect();
-      const rightPadding=parseFloat(getComputedStyle(headerContent).paddingRight);
-      shell.style.setProperty('--search-available-width',Math.max(0,headerRect.right-rightPadding-searchRect.left)+'px');
-      const viewport=window.visualViewport;
-      const viewportBottom=viewport?viewport.offsetTop+viewport.height:window.innerHeight;
-      shell.style.setProperty('--search-panel-height',Math.max(0,viewportBottom-searchRect.top-46-16)+'px');
+      const headerRect=$('.utility-search').getBoundingClientRect(),searchRect=$('.header-search').getBoundingClientRect();
+      shell.style.setProperty('--search-available-width',Math.max(0,headerRect.right-searchRect.left)+'px');
+      const viewport=window.visualViewport,viewportBottom=viewport?viewport.offsetTop+viewport.height:window.innerHeight;
+      const fieldHeight=$('.search-row').getBoundingClientRect().height;
+      shell.style.setProperty('--search-panel-height',Math.max(0,viewportBottom-searchRect.top-fieldHeight-8-16)+'px');
     }
     search.addEventListener('focus',openSearch);
-    search.addEventListener('click',()=>{if(shell.dataset.state==='placeholder')openSearch();});
-    search.addEventListener('input',()=>{setSearchState(search.value.trim()?'fill':'current');if(!suggestions.hidden)selectSearchOption(0);});
+    search.addEventListener('click',()=>{if(['placeholder','filled'].includes(shell.dataset.state))openSearch();});
+    search.addEventListener('input',()=>{
+      cancelSearch();selectSearchOption(-1);
+      setSearchState(search.value.trim()?'filled-focused':'focused');
+      filterTimer=setTimeout(filterSearch,150);
+    });
     $('#header-search-form').addEventListener('submit',event=>{
       event.preventDefault();
-      if(!suggestions.hidden&&selectedOption>=0){showExample(searchOptions[selectedOption].firstChild.textContent);return;}
-      if(search.value.trim())showExample(search.value);
+      if(shell.dataset.state==='loading')return;
+      if(!suggestions.hidden&&selectedOption>=0)submitSearch(searchOptions[selectedOption].firstChild.textContent);
+      else if(search.value.trim())submitSearch(search.value);
       else{openSearch();search.focus({preventScroll:true});}
     });
     search.addEventListener('keydown',event=>{
+      if(event.isComposing)return;
       if(event.key==='ArrowDown'||event.key==='ArrowUp'){
         event.preventDefault();
-        if(suggestions.hidden){setSearchState('current');selectSearchOption(event.key==='ArrowDown'?0:searchOptions.length-1);}
-        else selectSearchOption((selectedOption+(event.key==='ArrowDown'?1:-1)+searchOptions.length)%searchOptions.length);
+        cancelSearch();
+        if(suggestions.hidden)filterSearch();
+        const visible=visibleSearchOptions();if(!visible.length)return;
+        const current=visible.indexOf(searchOptions[selectedOption]);
+        const next=current<0?(event.key==='ArrowDown'?0:visible.length-1):(current+(event.key==='ArrowDown'?1:-1)+visible.length)%visible.length;
+        selectSearchOption(searchOptions.indexOf(visible[next]));
       }
-      if(!suggestions.hidden&&(event.key==='Home'||event.key==='End')){event.preventDefault();selectSearchOption(event.key==='Home'?0:searchOptions.length-1);}
+      if(event.key==='Escape'){event.preventDefault();closeSearch();}
     });
+    search.addEventListener('search',()=>{if(!search.value)clearSearch();});
     searchOptions.forEach((button,index)=>{
-      button.addEventListener('pointerdown',event=>event.preventDefault());
-      button.addEventListener('pointermove',()=>selectSearchOption(index));
-      button.addEventListener('click',()=>showExample(button.firstChild.textContent));
+      button.addEventListener('pointerdown',event=>{if(event.pointerType==='mouse')event.preventDefault();});
+      button.addEventListener('click',()=>submitSearch(button.firstChild.textContent));
     });
-    clear.addEventListener('click',closeSearch);
+    clear.addEventListener('click',clearSearch);
+    $('.search-retry').addEventListener('click',()=>submitSearch(search.value));
     $$('.feedback button',conversation).forEach(button=>button.addEventListener('click',()=>{
       const pressed=button.getAttribute('aria-pressed')==='true';
       $$('.feedback button',conversation).forEach(other=>other.setAttribute('aria-pressed','false'));
@@ -523,12 +799,16 @@
     }));
     conversation.addEventListener('click',event=>{if(event.target.closest('a:not([data-prototype-unlinked])'))closeSearch();});
     document.addEventListener('click',event=>{if(!event.target.closest('.header-search')&&shell.classList.contains('active'))closeSearch();});
+    shell.addEventListener('focusout',()=>{
+      setTimeout(()=>{if(!shell.contains(document.activeElement))closeSearch();},0);
+    });
     siteHeader.addEventListener('focusout',event=>{
       if(siteHeader.contains(event.relatedTarget))return;
       setTimeout(()=>{if(!siteHeader.contains(document.activeElement)){closeSearch();closeMenus();closeMobile();}},0);
     });
     window.addEventListener('resize',updateSearchGeometry);
     window.visualViewport?.addEventListener('resize',updateSearchGeometry);
+    window.visualViewport?.addEventListener('scroll',updateSearchGeometry);
 
     // La reserva de altura evita saltos de contenido al contraer la cabecera sticky.
     const utilityNavigation=$('.utility-navigation'),headerRoot=document.documentElement;
@@ -692,11 +972,11 @@
       if(now>=productPauseUntil&&!productRibbon.matches(':hover,:focus-within')&&cycle>0){
         productPosition=(productPosition+18*elapsed)%cycle;productScroll.scrollLeft=productPosition;
       }else productPosition=productScroll.scrollLeft;
-      if(productVisible&&!document.hidden&&!educationMotion.matches)productFrame=requestAnimationFrame(animateProducts);
+      if(productVisible&&!document.hidden&&!educationMotion.matches&&productGroup.scrollWidth>productScroll.clientWidth+1)productFrame=requestAnimationFrame(animateProducts);
     }
     function updateProductPlayback(){
       cancelAnimationFrame(productFrame);clearTimeout(productResumeTimer);productFrame=0;productLastTime=0;productPosition=productScroll.scrollLeft;
-      if(!productVisible||document.hidden||educationMotion.matches||productRibbon.matches(':hover,:focus-within'))return;
+      if(!productVisible||document.hidden||educationMotion.matches||productRibbon.matches(':hover,:focus-within')||productGroup.scrollWidth<=productScroll.clientWidth+1)return;
       const remaining=productPauseUntil-performance.now();
       if(remaining>0){productResumeTimer=setTimeout(updateProductPlayback,remaining+20);return;}
       productFrame=requestAnimationFrame(animateProducts);
@@ -717,7 +997,7 @@
     brandTypes.forEach((type,i)=>{const slot=document.createElement('div');slot.className='brand-slot';const name=type==='sony'?'Sony':type==='americanino'?'Americanino':'Frisby';slot.innerHTML=`<button class="brand-card ${type}" type="button" data-prototype-unlinked aria-label="${name}${type==='americanino'?', nuevo':type==='sony'?', oferta':''}"><span class="brand-logo"><img src="${brandAssets[type]}" alt=""></span>${type==='frisby'?'':`<span class="brand-badge">${type==='americanino'?'Nuevo':'Oferta'}</span>`}</button>`;brandPanel.append(slot);});
     const lastBrand=document.createElement('div');lastBrand.className='brand-slot brand-slot--all';lastBrand.innerHTML='<a class="brand-card all-brands" href="#marcas" aria-label="Ver todas las marcas aliadas"><h3>Y más de 1000 aliados</h3><span class="all-link">Ver todo<img src="assets/new-78c95.9dae284067ae.svg" alt=""></span></a>';brandPanel.append(lastBrand);
 
-    function primaxMarkup(){return `<span class="promotion-artwork" aria-hidden="true"><img class="promotion-photo" src="assets/figma-2e3a2.769f479f86a8.webp" alt=""><span class="promotion-art a"><img src="assets/figma-2bcb6.7778a6ed9d5f.svg" alt=""></span><span class="promotion-art b"><img src="assets/figma-e79fe.0e95dc303fee.svg" alt=""></span><span class="promotion-art c"><img src="assets/figma-230b5.41afd75ead7e.svg" alt=""></span><span class="promotion-art d"><img src="assets/figma-d0f3f.deb01b19a91f.svg" alt=""></span><span class="promotion-art e"><img src="assets/figma-83cc9.bdb46e26560a.svg" alt=""></span></span><span class="promotion-copy"><span class="primax-logo"><img src="assets/figma-e8a79.5619201ca0fe.png" alt="Primax"></span><h1>Tanquea y Acumula Puntos</h1><p>Da tu cédula en estaciones Primax</p><span class="yellow-button">Ver estaciones</span></span>`;}
+    function primaxMarkup(){return `<span class="promotion-artwork" aria-hidden="true"><img class="promotion-photo" src="assets/figma-2e3a2.769f479f86a8.webp" alt=""><span class="promotion-art a"><img src="assets/figma-2bcb6.7778a6ed9d5f.svg" alt=""></span><span class="promotion-art b"><img src="assets/figma-e79fe.0e95dc303fee.svg" alt=""></span><span class="promotion-art c"><img src="assets/proposal-230b5.c6e4ee838988.svg" alt=""></span><span class="promotion-art d"><img src="assets/proposal-d0f3f.82a35e28ffea.svg" alt=""></span><span class="promotion-art e"><img src="assets/figma-83cc9.bdb46e26560a.svg" alt=""></span></span><span class="promotion-copy"><span class="primax-logo"><img src="assets/figma-e8a79.5619201ca0fe.png" alt="Primax"></span><h1>Tanquea y Acumula Puntos</h1><p>Da tu cédula en estaciones Primax</p><span class="yellow-button">Ver estaciones</span></span>`;}
 
     const promotionTrack=$('#promotion-track');
     ['primax','puntosmania','primax'].forEach((type,i)=>{const slide=document.createElement('article');slide.className='promotion '+type;slide.setAttribute('aria-label',type==='puntosmania'?'Ofertas especiales de Puntosmanía':'Tanquea y Acumula Puntos');slide.innerHTML=type==='puntosmania'?'<img class="puntosmania-image" src="assets/figma-3bec5.a8e4f48ef0a6.webp" alt="Ofertas especiales de Puntosmanía. Ver todas las ofertas. Consulta términos y condiciones aquí.">':(i===0?primaxMarkup().replace('assets/figma-2bcb6.7778a6ed9d5f.svg','assets/new-49822.32d6bed4978d.svg').replace('assets/figma-e79fe.0e95dc303fee.svg','assets/new-83347.9486d890c3bb.svg'):primaxMarkup().replace('<h1>','<h3>').replace('</h1>','</h3>'));slide.querySelector('.yellow-button')?.replaceWith(Object.assign(document.createElement('a'),{className:'yellow-button',href:'#marcas',textContent:'Ver estaciones'}));promotionTrack.append(slide);});
@@ -731,12 +1011,52 @@
     const promotionMotion=motionPreference;
     setInterval(()=>{if(promotionVisible&&!document.hidden&&!promotionMotion.matches&&!$('.promotions').matches(':hover,:focus-within'))setPromotion(promotionIndex+1);},6000);
     setPromotion(0);
+
+    // Selección local de demostración; importes e imágenes de las tarjetas de Figma.
+    const shopBoard=$('.shop-board'),shopForm=$('.shop-copy'),shopPoints=$('#shop-points'),shopResults=$('.shop-results'),shopStatus=$('#shop-status');
+    const shopProducts=[
+      {name:'Control DualSense PS5',seller:'Sony',image:'assets/update-68df0.9523a941777d.webp',logo:'assets/update-bdad3.baecdafc54a2.png',earned:'560 Puntos',cash:'+ $200.000'},
+      {name:'Tenis adidas Grand Court Alpha',seller:'Adidas',image:'assets/update-efc67.cc87e90a7962.webp',logo:'assets/update-d07db.9ae5f5065d03.png',earned:'560 Puntos',cash:'+ $200.000'},
+      {name:'Cartera Vibra',seller:'Parchita',image:'assets/update-02b5f.b274bf8a0c57.png',logo:'assets/update-fbaf0.5744ed08ac45.png',earned:'320 Puntos',cash:'+ $150.000'}
+    ];
+    let shopIndex=0;
+    const shopPages=$$('.shop-pages button');
+    function showShopProduct(index){
+      shopIndex=(index+shopProducts.length)%shopProducts.length;
+      const product=shopProducts[shopIndex],feature=$('.shop-feature');
+      feature.dataset.product=String(shopIndex);
+      $('.shop-feature-image').src=product.image;$('.shop-feature-image').alt=product.name;
+      $('.shop-seller').src=product.logo;$('.shop-seller').alt=product.seller;
+      $('.shop-product-name').textContent=product.name;$('.shop-product-seller').textContent='Vendido por: '+product.seller;$('.shop-product-earned').textContent=product.earned;$('.shop-product-details>div:nth-of-type(2)>p').textContent=product.cash;
+      shopPages.forEach((button,i)=>button.setAttribute('aria-current',String(i===shopIndex)));
+    }
+    function updateShop(){
+      const raw=shopPoints.value.replace(/[^0-9]/g,'').slice(0,9);
+      shopPoints.value=raw;shopPoints.style.width=Math.max(4,raw.length)+'ch';
+      const value=Number(raw),active=value>=1000;
+      shopBoard.dataset.active=String(active);shopResults.hidden=!active;
+      shopStatus.hidden=!raw;
+      shopStatus.textContent=!raw?'':active?'Explora estos productos de ejemplo.':'Prueba con 1000 Puntos o más para explorar productos de ejemplo.';
+      if(!active)showShopProduct(0);
+    }
+    shopPoints.addEventListener('input',updateShop);
+    shopForm.addEventListener('submit',event=>{event.preventDefault();updateShop();});
+    shopPages.forEach((button,i)=>button.addEventListener('click',()=>showShopProduct(i)));
+    $('.shop-previous').addEventListener('click',()=>showShopProduct(shopIndex-1));
+    $('.shop-next').addEventListener('click',()=>showShopProduct(shopIndex+1));
+    shopResults.addEventListener('keydown',event=>{if(event.target===shopPoints)return;if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();showShopProduct(shopIndex+(event.key==='ArrowRight'?1:-1));}});
+
     // Cuatro tarjetas con imagen frontal y detalle al girar, según Figma 1241:33007.
-    const rewardData=[{image:'assets/new-76ee4.646c40c262f4.webp',alt:'Mujer escuchando música con audífonos'}, {image:'assets/new-e2cda.98d2727ea57d.webp',alt:'Familia caminando por la playa'}, {image:'assets/new-8a46a.0b21ce040bf8.webp',alt:'Familia con su perro en el carro'}, {image:'assets/new-0032d.179d40f767df.webp',alt:'Regalo envuelto con una cinta'}];
+    const rewardData=[
+      {image:'assets/new-e2cda.98d2727ea57d.webp',alt:'Familia caminando por la playa',title:'Tu próximo destino te espera',description:'Planea el viaje perfecto y redímelo con tus Puntos.',cta:'Ir a Viajes',href:'#experiencias'},
+      {image:'assets/proposal-eed7a.7e3a2b17c431.webp',alt:'Mujer escuchando música con audífonos',title:'Eso que quieres, con tus Puntos',description:'Descubre productos para disfrutar con tus Puntos.',cta:'Ir a Tienda',href:'#ofertas'},
+      {image:'assets/new-0032d.179d40f767df.webp',alt:'Regalo envuelto con una cinta',title:'Elige un bono, regala posibilidades',description:'Explora las opciones para disfrutar o regalar.',cta:'Ver bonos',href:'#experiencias'},
+      {image:'assets/proposal-77ddd.12ac2ffcc886.webp',alt:'Mujer comprando desde su celular',title:'Compra desde cualquier parte',description:'Encuentra más formas de usar tus Puntos.',cta:'Explorar',href:'#ofertas'}
+    ];
     const rewardTrack=$('#reward-track');
     rewardData.forEach((r,i)=>{
       const card=document.createElement('article');card.className='reward-card';card.tabIndex=0;card.setAttribute('aria-label',r.alt+'. Pulsa Enter para ver el detalle.');
-      card.innerHTML=`<div class="reward-inner"><div class="reward-front"><img src="${r.image}" alt="${r.alt}"></div><div class="reward-back" inert><div><h3>Tu próximo destino te espera</h3><p>Planea el viaje perfecto y redímelo con tus Puntos.</p></div><a class="pill" href="#experiencias" data-prototype-unlinked>Ir a Paquetes<img src="assets/new-9fae7.cdc24eb91d80.svg" alt=""></a></div></div>`;
+      card.innerHTML=`<div class="reward-inner"><div class="reward-front"><img src="${r.image}" alt="${r.alt}"><h3 class="reward-title">${r.title}</h3></div><div class="reward-back" inert><div><h3>${r.title}</h3><p>${r.description}</p></div><a class="pill" href="${r.href}">${r.cta}<img src="assets/new-9fae7.cdc24eb91d80.svg" alt=""></a></div></div>`;
       rewardTrack.append(card);
     });
     function syncRewardFace(card){const back=$('.reward-back',card);back.inert=compactHome.matches?!card.classList.contains('is-mobile-current'):!(card.matches(':hover,:focus-within')||card.classList.contains('open'));}
